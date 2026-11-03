@@ -1,0 +1,26 @@
+{
+  "name": "fastfeet-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "@rocketseat/eslint-config": "^2.2.2",
+    "@types/node": "^26.6.6",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.12"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3"
+  }
+}
