@@ -4,6 +4,7 @@ import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recip
 import { EditRecipientUseCase } from './edit-recipient'
 import { MakeRecipient } from '@/test/factories/make-recipient'
 import { NotAllowedError } from './errors/not-allowed-error'
+import { RecipientNotFoundError } from './errors/recipient-not-found-error'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryRecipientRepository: InMemoryRecipientRepository
@@ -63,18 +64,14 @@ describe('editar a recipient', () => {
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(NotAllowedError)
   })
-  it('should be able edit a recipient', async () => {
-    const user = makeUser({ role: 'DELIVERYMAN' })
+  it('should not be able to edit a recipient that does not exist', async () => {
+    const admin = makeUser({ role: 'ADMIN' })
 
-    inMemoryUsersRepository.items.push(user)
-
-    const recipient = MakeRecipient()
-
-    inMemoryRecipientRepository.items.push(recipient)
+    inMemoryUsersRepository.items.push(admin)
 
     const result = await sut.execute({
-      adminId: user.id.toString(),
-      recipientId: recipient.id.toString(),
+      adminId: admin.id.toString(),
+      recipientId: 'not exist',
       name: 'Fernando Melo',
       address: 'rua daqui de casa',
       longitude: 12345,
@@ -82,6 +79,6 @@ describe('editar a recipient', () => {
     })
 
     expect(result.isLeft()).toBe(true)
-    expect(result.value).toBeInstanceOf(NotAllowedError)
+    expect(result.value).toBeInstanceOf(RecipientNotFoundError)
   })
 })
