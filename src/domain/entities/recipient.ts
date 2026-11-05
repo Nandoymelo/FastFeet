@@ -1,7 +1,7 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-interface RecipientProps {
+export interface RecipientProps {
   name: string
   address: string
   longitude: number
@@ -23,6 +23,22 @@ export class Recipient extends Entity<RecipientProps> {
 
   get latitude() {
     return this.props.latitude
+  }
+
+  set name(name: string) {
+    this.props.name = name
+  }
+
+  set address(address: string) {
+    this.props.address = address
+  }
+
+  set latitude(latitude: number) {
+    this.props.latitude = latitude
+  }
+
+  set longitude(longitude: number) {
+    this.props.longitude = longitude
   }
 
   static create(props: RecipientProps, id?: UniqueEntityID) {
