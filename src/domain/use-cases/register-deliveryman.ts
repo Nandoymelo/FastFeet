@@ -33,7 +33,7 @@ export class RegisterDeliverymanUseCase {
     const admin = await this.usersRepository.findById(adminId)
 
     if (!admin || admin.role !== 'ADMIN') {
-      return left(new NotAllowedError(admin?.id.toString() ?? 'unkown'))
+      return left(new NotAllowedError(admin?.id.toString() ?? 'unknown'))
     }
 
     const userCpf = Cpf.create(cpf)

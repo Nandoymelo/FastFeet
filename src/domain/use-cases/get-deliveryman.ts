@@ -25,7 +25,7 @@ export class GetDeliverymanUseCase {
     const admin = await this.usersRepository.findById(adminId)
 
     if (!admin || admin.role !== 'ADMIN') {
-      return left(new NotAllowedError(admin?.id.toString() ?? 'unkown'))
+      return left(new NotAllowedError(admin?.id.toString() ?? 'unknown'))
     }
 
     const deliveryman = await this.usersRepository.findById(deliverymanId)

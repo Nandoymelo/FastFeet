@@ -1,3 +1,4 @@
+import type { PaginationParams } from '@/core/repositories/pagination-params'
 import type { User } from '@/domain/entities/user'
 import type { Cpf } from '@/domain/entities/value-object/cpf'
 import { UsersRepository } from '@/domain/repositories/user-repository'
@@ -13,6 +14,15 @@ export class InMemoryUsersRepository implements UsersRepository {
     }
 
     return user
+  }
+
+  async findManyDeliverymen({ page }: PaginationParams) {
+    const deliverymens = this.items
+      .filter((item) => item.role === 'DELIVERYMAN')
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .slice((page - 1) * 20, page * 20)
+
+    return deliverymens
   }
 
   async findById(id: string) {
