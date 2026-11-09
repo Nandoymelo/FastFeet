@@ -1,41 +1,41 @@
 import { left, right, type Either } from '@/core/types/either'
 import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from './errors/not-allowed-error'
-import { Order } from '../entities/order'
-import { OrdersRepository } from '../repositories/orders-repository'
+import { Recipient } from '../../enterprise/entities/recipient'
+import { RecipientRepository } from '../repositories/recipients-repository'
 
-interface FetchOrdersUseCaseRequest {
+interface FetchRecipientUseCaseRequest {
   adminId: string
   page: number
 }
 
-type FetchOrdersUseCaseResponse = Either<
+type FetchRecipientUseCaseResponse = Either<
   NotAllowedError,
   {
-    orders: Order[]
+    recipients: Recipient[]
   }
 >
 
-export class FetchOrdersUseCase {
+export class FetchRecipientUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private orderRepository: OrdersRepository,
+    private recipientsRepository: RecipientRepository,
   ) {}
 
   async execute({
     adminId,
     page,
-  }: FetchOrdersUseCaseRequest): Promise<FetchOrdersUseCaseResponse> {
+  }: FetchRecipientUseCaseRequest): Promise<FetchRecipientUseCaseResponse> {
     const admin = await this.usersRepository.findById(adminId)
 
     if (!admin || admin.role !== 'ADMIN') {
       return left(new NotAllowedError(admin?.id.toString() ?? 'unknown'))
     }
 
-    const orders = await this.orderRepository.findManyOrder({
+    const recipients = await this.recipientsRepository.findManyRecipient({
       page,
     })
 
-    return right({ orders })
+    return right({ recipients })
   }
 }

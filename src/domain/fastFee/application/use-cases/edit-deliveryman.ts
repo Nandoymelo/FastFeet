@@ -1,9 +1,9 @@
 import { left, right, type Either } from '@/core/types/either'
 import { NotAllowedError } from './errors/not-allowed-error'
-import { User } from '../entities/user'
+import { User } from '../../enterprise/entities/user'
 import { UsersRepository } from '../repositories/user-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
-import { Cpf } from '../entities/value-object/cpf'
+import { Cpf } from '../../enterprise/entities/value-object/cpf'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
 interface EditDeliverymanUseCaseRequest {

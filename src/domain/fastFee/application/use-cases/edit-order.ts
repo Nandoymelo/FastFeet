@@ -1,25 +1,27 @@
 import { left, right, type Either } from '@/core/types/either'
+import type { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { RecipientRepository } from '../repositories/recipients-repository'
 import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from './errors/not-allowed-error'
 import { RecipientNotFoundError } from './errors/recipient-not-found-error'
-import { Order } from '../entities/order'
+import { OrderNotFoundError } from './errors/order-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-interface CreateOrderUseCaseRequest {
+interface EditOrderUseCaseCaseRequest {
   adminId: string
   recipientId: string
+  orderId: string
 }
 
-type CreateOrderUseCaseResponse = Either<
-  NotAllowedError | RecipientNotFoundError,
+type EditOrderUseCaseCaseResponse = Either<
+  NotAllowedError | RecipientNotFoundError | OrderNotFoundError,
   {
     order: Order
   }
 >
 
-export class CreateOrderUseCase {
+export class EditOrderUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private recipientRepository: RecipientRepository,
@@ -29,7 +31,8 @@ export class CreateOrderUseCase {
   async execute({
     adminId,
     recipientId,
-  }: CreateOrderUseCaseRequest): Promise<CreateOrderUseCaseResponse> {
+    orderId,
+  }: EditOrderUseCaseCaseRequest): Promise<EditOrderUseCaseCaseResponse> {
     const admin = await this.usersRepository.findById(adminId)
 
     if (!admin || admin.role !== 'ADMIN') {
@@ -42,12 +45,19 @@ export class CreateOrderUseCase {
       return left(new RecipientNotFoundError(recipientId))
     }
 
-    const order = Order.create({
-      recipientId: new UniqueEntityID(recipientId),
-    })
+    const order = await this.ordersRepository.findById(orderId)
 
-    await this.ordersRepository.create(order)
+    if (!order) {
+      return left(new OrderNotFoundError(orderId))
+    }
+    try {
+      order.changeRecipient(new UniqueEntityID(recipientId))
 
-    return right({ order })
+      await this.ordersRepository.save(order)
+
+      return right({ order })
+    } catch {
+      return left(new Error('Order cannot be edited after pickup.'))
+    }
   }
 }

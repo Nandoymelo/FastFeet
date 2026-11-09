@@ -12,7 +12,7 @@ let inMemoryRecipientRepository: InMemoryRecipientRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
 let sut: CreateOrderUseCase
 
-describe('CreaCte Order', () => {
+describe('Create Order', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
     inMemoryRecipientRepository = new InMemoryRecipientRepository()

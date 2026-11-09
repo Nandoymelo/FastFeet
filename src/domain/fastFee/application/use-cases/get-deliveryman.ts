@@ -1,7 +1,7 @@
 import { left, right, type Either } from '@/core/types/either'
 import { UsersRepository } from '../repositories/user-repository'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
-import { User } from '../entities/user'
+import { User } from '../../enterprise/entities/user'
 import { NotAllowedError } from './errors/not-allowed-error'
 
 interface GetDeliverymanUseCaseRequest {

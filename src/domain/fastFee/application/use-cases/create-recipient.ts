@@ -1,7 +1,7 @@
 import { left, right, type Either } from '@/core/types/either'
 import type { RecipientRepository } from '../repositories/recipients-repository'
 import { NotAllowedError } from './errors/not-allowed-error'
-import { Recipient } from '../entities/recipient'
+import { Recipient } from '../../enterprise/entities/recipient'
 import { UsersRepository } from '../repositories/user-repository'
 
 interface CreateRecipientUseCaseRequest {

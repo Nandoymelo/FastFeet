@@ -1,5 +1,5 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
-import { Recipient } from '../entities/recipient'
+import type { Recipient } from '../../enterprise/entities/recipient'
 
 export abstract class RecipientRepository {
   abstract create(recipient: Recipient): Promise<void>

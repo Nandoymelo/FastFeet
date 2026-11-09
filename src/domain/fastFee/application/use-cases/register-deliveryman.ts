@@ -1,5 +1,5 @@
-import { User } from '../entities/user'
-import { Cpf } from '../entities/value-object/cpf'
+import { User } from '../../enterprise/entities/user'
+import { Cpf } from '../../enterprise/entities/value-object/cpf'
 import { HashGenerator } from '@/core/cryptography/hash-generator'
 import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from './errors/not-allowed-error'

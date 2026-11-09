@@ -2,7 +2,7 @@ import { left, right, type Either } from '@/core/types/either'
 import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from './errors/not-allowed-error'
 import { OrderNotFoundError } from './errors/order-not-found-error'
-import { Order } from '../entities/order'
+import { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
 
 interface GetOrdertUseCaseRequest {

@@ -1,7 +1,7 @@
 import type { HashCompare } from '@/core/cryptography/hash-compare'
-import { User } from '../entities/user'
+import { User } from '../../enterprise/entities/user'
 import { UsersRepository } from '../repositories/user-repository'
-import { Cpf } from '../entities/value-object/cpf'
+import { Cpf } from '../../enterprise/entities/value-object/cpf'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
 import { left, right, type Either } from '@/core/types/either'
 

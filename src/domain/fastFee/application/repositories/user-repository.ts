@@ -1,6 +1,6 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
-import { User } from '../entities/user'
-import type { Cpf } from '../entities/value-object/cpf'
+import type { User } from '../../enterprise/entities/user'
+import type { Cpf } from '../../enterprise/entities/value-object/cpf'
 
 export abstract class UsersRepository {
   abstract findByCpf(cpf: Cpf): Promise<User | null>
