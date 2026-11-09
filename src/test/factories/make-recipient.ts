@@ -1,4 +1,7 @@
-import { Recipient, type RecipientProps } from '@/domain/entities/recipient'
+import {
+  Recipient,
+  type RecipientProps,
+} from '@/domain/fastFee/enterprise/entities/recipient'
 import { faker } from '@faker-js/faker'
 
 export function MakeRecipient(override: Partial<RecipientProps> = {}) {

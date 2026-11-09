@@ -1,5 +1,5 @@
-import { User, type UserProps } from '@/domain/entities/user'
-import { Cpf } from '@/domain/entities/value-object/cpf'
+import { User, type UserProps } from '@/domain/fastFee/enterprise/entities/user'
+import { Cpf } from '@/domain/fastFee/enterprise/entities/value-object/cpf'
 import { faker } from '@faker-js/faker'
 import { generateCpf } from '../utils/generate-cpf'
 

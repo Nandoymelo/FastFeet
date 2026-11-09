@@ -1,6 +1,6 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
-import type { Order } from '@/domain/entities/order'
-import { OrdersRepository } from '@/domain/repositories/orders-repository'
+import { OrdersRepository } from '@/domain/fastFee/application/repositories/orders-repository'
+import { Order } from '@/domain/fastFee/enterprise/entities/order'
 
 export class InMemoryOrderRepository implements OrdersRepository {
   async findManyOrder({ page }: PaginationParams) {

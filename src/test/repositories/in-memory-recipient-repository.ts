@@ -1,6 +1,6 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
-import { Recipient } from '@/domain/entities/recipient'
-import { RecipientRepository } from '@/domain/repositories/recipients-repository'
+import { RecipientRepository } from '@/domain/fastFee/application/repositories/recipients-repository'
+import { Recipient } from '@/domain/fastFee/enterprise/entities/recipient'
 
 export class InMemoryRecipientRepository implements RecipientRepository {
   public items: Recipient[] = []

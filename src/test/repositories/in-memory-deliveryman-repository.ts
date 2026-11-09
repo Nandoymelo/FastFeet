@@ -1,7 +1,7 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
-import type { User } from '@/domain/entities/user'
-import type { Cpf } from '@/domain/entities/value-object/cpf'
-import { UsersRepository } from '@/domain/repositories/user-repository'
+import { UsersRepository } from '@/domain/fastFee/application/repositories/user-repository'
+import { User } from '@/domain/fastFee/enterprise/entities/user'
+import type { Cpf } from '@/domain/fastFee/enterprise/entities/value-object/cpf'
 
 export class InMemoryUsersRepository implements UsersRepository {
   public items: User[] = []
