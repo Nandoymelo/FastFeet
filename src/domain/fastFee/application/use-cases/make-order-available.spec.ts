@@ -1,11 +1,11 @@
 import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliveryman-repository'
 import { makeUser } from '@/test/factories/make-user'
-import { NotAllowedError } from './errors/not-allowed-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
 import { MakeOrderAvailableUseCase } from './make-order-available'
 import { MakeOrder } from '@/test/factories/make-order'
-import { OrderNotFoundError } from './errors/order-not-found-error'
-import { OrderStatusTransitionError } from './errors/order-status-transition-error'
+import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
+import { OrderStatusTransitionError } from '../../../../core/errors/order-status-transition-error'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryOrderRepository: InMemoryOrderRepository

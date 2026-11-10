@@ -3,8 +3,8 @@ import { makeUser } from '@/test/factories/make-user'
 import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 import { EditRecipientUseCase } from './edit-recipient'
 import { MakeRecipient } from '@/test/factories/make-recipient'
-import { NotAllowedError } from './errors/not-allowed-error'
-import { RecipientNotFoundError } from './errors/recipient-not-found-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { RecipientNotFoundError } from '../../../../core/errors/recipient-not-found-error'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryRecipientRepository: InMemoryRecipientRepository

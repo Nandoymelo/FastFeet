@@ -1,8 +1,8 @@
 import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliveryman-repository'
 import { DeleteDeliverymanUseCase } from './delete-deliveryman'
 import { makeUser } from '@/test/factories/make-user'
-import { NotAllowedError } from './errors/not-allowed-error'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let sut: DeleteDeliverymanUseCase

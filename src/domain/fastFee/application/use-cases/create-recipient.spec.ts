@@ -2,7 +2,7 @@ import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliverym
 import { makeUser } from '@/test/factories/make-user'
 import { CreateRecipientUseCase } from './create-recipient'
 import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
-import { NotAllowedError } from './errors/not-allowed-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryRecipientRepository: InMemoryRecipientRepository

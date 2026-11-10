@@ -3,9 +3,9 @@ import type { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { RecipientRepository } from '../repositories/recipients-repository'
 import { UsersRepository } from '../repositories/user-repository'
-import { NotAllowedError } from './errors/not-allowed-error'
-import { RecipientNotFoundError } from './errors/recipient-not-found-error'
-import { OrderNotFoundError } from './errors/order-not-found-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { RecipientNotFoundError } from '../../../../core/errors/recipient-not-found-error'
+import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 interface EditOrderUseCaseCaseRequest {

@@ -1,8 +1,8 @@
 import { left, right, type Either } from '@/core/types/either'
 import { RecipientRepository } from '../repositories/recipients-repository'
 import { UsersRepository } from '../repositories/user-repository'
-import { NotAllowedError } from './errors/not-allowed-error'
-import { RecipientNotFoundError } from './errors/recipient-not-found-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { RecipientNotFoundError } from '../../../../core/errors/recipient-not-found-error'
 import { Recipient } from '../../enterprise/entities/recipient'
 
 interface GetRecipientUseCaseRequest {

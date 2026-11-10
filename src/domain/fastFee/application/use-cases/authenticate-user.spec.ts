@@ -2,7 +2,7 @@ import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliverym
 import { FakeHasher } from '@/test/cryptography/fake-hasher'
 import { AuthenticateUseCase } from './authenticate-user'
 import { makeUser } from '@/test/factories/make-user'
-import { WrongCredentialsError } from './errors/wrong-credentials-error'
+import { WrongCredentialsError } from '../../../../core/errors/wrong-credentials-error'
 import { Cpf } from '../../enterprise/entities/value-object/cpf'
 
 let inMemoryUsersRepository: InMemoryUsersRepository

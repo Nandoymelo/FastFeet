@@ -1,7 +1,7 @@
 import { left, right, type Either } from '@/core/types/either'
-import { NotAllowedError } from './errors/not-allowed-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import type { UsersRepository } from '../repositories/user-repository'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error'
 
 interface DeleteDeliverymanUseCaseRequest {
   adminId: string

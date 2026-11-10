@@ -1,7 +1,7 @@
 import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliveryman-repository'
 import { makeUser } from '@/test/factories/make-user'
 import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
-import { NotAllowedError } from './errors/not-allowed-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { CreateOrderUseCase } from './create-order'
 import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
 import { MakeRecipient } from '@/test/factories/make-recipient'

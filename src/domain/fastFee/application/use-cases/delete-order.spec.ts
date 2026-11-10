@@ -1,10 +1,10 @@
 import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliveryman-repository'
 import { makeUser } from '@/test/factories/make-user'
-import { NotAllowedError } from './errors/not-allowed-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { DeleteOrderUseCase } from './delete-order'
 import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
 import { MakeOrder } from '@/test/factories/make-order'
-import { OrderCannotBeDeletedError } from './errors/order-cannot-delete-error'
+import { OrderCannotBeDeletedError } from '../../../../core/errors/order-cannot-delete-error'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryOrderRepository: InMemoryOrderRepository

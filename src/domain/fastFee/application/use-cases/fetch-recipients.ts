@@ -1,6 +1,6 @@
 import { left, right, type Either } from '@/core/types/either'
 import { UsersRepository } from '../repositories/user-repository'
-import { NotAllowedError } from './errors/not-allowed-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { Recipient } from '../../enterprise/entities/recipient'
 import { RecipientRepository } from '../repositories/recipients-repository'
 

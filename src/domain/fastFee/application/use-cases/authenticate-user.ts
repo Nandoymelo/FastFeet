@@ -2,7 +2,7 @@ import type { HashCompare } from '@/core/cryptography/hash-compare'
 import { User } from '../../enterprise/entities/user'
 import { UsersRepository } from '../repositories/user-repository'
 import { Cpf } from '../../enterprise/entities/value-object/cpf'
-import { WrongCredentialsError } from './errors/wrong-credentials-error'
+import { WrongCredentialsError } from '../../../../core/errors/wrong-credentials-error'
 import { left, right, type Either } from '@/core/types/either'
 
 interface AuthenticateUseCaseRequest {

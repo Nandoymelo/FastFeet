@@ -1,8 +1,8 @@
 import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliveryman-repository'
 import { FakeHasher } from '@/test/cryptography/fake-hasher'
 import { RegisterDeliverymanUseCase } from './register-deliveryman'
-import { NotAllowedError } from './errors/not-allowed-error'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error'
 import { makeUser } from '@/test/factories/make-user'
 
 let inMemoryUsersRepository: InMemoryUsersRepository

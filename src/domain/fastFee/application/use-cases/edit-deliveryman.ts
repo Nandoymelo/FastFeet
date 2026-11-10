@@ -1,10 +1,10 @@
 import { left, right, type Either } from '@/core/types/either'
-import { NotAllowedError } from './errors/not-allowed-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { User } from '../../enterprise/entities/user'
 import { UsersRepository } from '../repositories/user-repository'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error'
 import { Cpf } from '../../enterprise/entities/value-object/cpf'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error'
 
 interface EditDeliverymanUseCaseRequest {
   adminId: string

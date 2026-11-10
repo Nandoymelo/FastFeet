@@ -1,9 +1,9 @@
 import { left, right, type Either } from '@/core/types/either'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { UsersRepository } from '../repositories/user-repository'
-import { NotAllowedError } from './errors/not-allowed-error'
-import { OrderNotFoundError } from './errors/order-not-found-error'
-import { OrderCannotBeDeletedError } from './errors/order-cannot-delete-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
+import { OrderCannotBeDeletedError } from '../../../../core/errors/order-cannot-delete-error'
 
 interface DeleteOrderUseCaseRequest {
   adminId: string

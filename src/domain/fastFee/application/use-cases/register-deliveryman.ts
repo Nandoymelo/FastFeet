@@ -2,8 +2,8 @@ import { User } from '../../enterprise/entities/user'
 import { Cpf } from '../../enterprise/entities/value-object/cpf'
 import { HashGenerator } from '@/core/cryptography/hash-generator'
 import { UsersRepository } from '../repositories/user-repository'
-import { NotAllowedError } from './errors/not-allowed-error'
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error'
 import { left, right, type Either } from '@/core/types/either'
 
 interface RegisterDeliverymanUseCaseRequest {

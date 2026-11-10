@@ -1,11 +1,11 @@
 import { left, right, type Either } from '@/core/types/either'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { UsersRepository } from '../repositories/user-repository'
-import { NotAllowedError } from './errors/not-allowed-error'
+import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { Order } from '../../enterprise/entities/order'
-import { OrderNotFoundError } from './errors/order-not-found-error'
-import { OrderStatusTransitionError } from './errors/order-status-transition-error'
-import { DeliveryPhotoRequiredError } from './errors/delivery-photo-required-error'
+import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
+import { OrderStatusTransitionError } from '../../../../core/errors/order-status-transition-error'
+import { DeliveryPhotoRequiredError } from '../../../../core/errors/delivery-photo-required-error'
 import type { StorageProvider } from '../storage/storage-provider'
 
 interface DeliverOrderUseCaseRequest {
