@@ -35,6 +35,10 @@ export class User extends Entity<UserProps> {
     this.props.cpf = cpf
   }
 
+  set password(password: string) {
+    this.props.password = password
+  }
+
   static create(props: UserProps, id?: UniqueEntityID) {
     return new User(props, id)
   }

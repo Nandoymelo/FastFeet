@@ -88,6 +88,21 @@ export class Order extends Entity<OrderProps> {
     )
   }
 
+  canBeReturned() {
+    return (
+      !!this.props.availableAt &&
+      !!this.props.pickedUpAt &&
+      !!this.props.deliveredAt &&
+      !this.props.returnedAt
+    )
+  }
+
+  canBeReturnedBy(deliverymanId: UniqueEntityID) {
+    return (
+      this.canBeReturned() && this.props.deliverymanId?.equals(deliverymanId)
+    )
+  }
+
   delivered(deliverymanId: UniqueEntityID, photoUrl: string) {
     if (!this.canBeDelivered()) {
       throw new Error('Order cannot be delivered.')
@@ -98,6 +113,17 @@ export class Order extends Entity<OrderProps> {
     }
     this.props.deliveryPhotoUrl = photoUrl
     this.props.deliveredAt = new Date()
+  }
+
+  returned(deliverymanId: UniqueEntityID) {
+    if (!this.canBeReturned()) {
+      throw new Error('Order cannot be returned.')
+    }
+
+    if (!this.props.deliverymanId?.equals(deliverymanId)) {
+      throw new Error('Deliveryman is not authorized.')
+    }
+    this.props.returnedAt = new Date()
   }
 
   pickUp(deliverymanId: UniqueEntityID) {
