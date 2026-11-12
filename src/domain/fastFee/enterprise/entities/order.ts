@@ -1,6 +1,8 @@
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import type { Optional } from '@/core/types/optional'
+import { OrderChangeStatus } from '../events/order-change-status'
+import type { OrderStatus } from '@/core/entities/order-status'
 
 export interface OrderProps {
   recipientId: UniqueEntityID
@@ -13,7 +15,7 @@ export interface OrderProps {
   returnedAt?: Date
 }
 
-export class Order extends Entity<OrderProps> {
+export class Order extends AggregateRoot<OrderProps> {
   get recipientId() {
     return this.props.recipientId
   }
@@ -46,6 +48,15 @@ export class Order extends Entity<OrderProps> {
     return this.props.deliveryPhotoUrl
   }
 
+  get status(): OrderStatus {
+    if (this.props.returnedAt) return 'RETURNED'
+    if (this.props.deliveredAt) return 'DELIVERED'
+    if (this.props.pickedUpAt) return 'PICKED_UP'
+    if (this.props.availableAt) return 'AVAILABLE'
+
+    return 'PENDING'
+  }
+
   changeRecipient(recipientId: UniqueEntityID) {
     if (this.props.pickedUpAt) {
       throw new Error('Order cannot be edited after pickup.')
@@ -56,10 +67,6 @@ export class Order extends Entity<OrderProps> {
 
   canBeDeleted() {
     return !this.props.pickedUpAt
-  }
-
-  makeAvailable() {
-    this.props.availableAt = new Date()
   }
 
   canBeMadeAvailable() {
@@ -103,6 +110,15 @@ export class Order extends Entity<OrderProps> {
     )
   }
 
+  findManyAvailable(): [] {
+    return !!this.props.availableAt && this.props.pickedUpAt
+  }
+
+  makeAvailable() {
+    this.props.availableAt = new Date()
+    this.addDomainEvent(new OrderChangeStatus(this))
+  }
+
   delivered(deliverymanId: UniqueEntityID, photoUrl: string) {
     if (!this.canBeDelivered()) {
       throw new Error('Order cannot be delivered.')
@@ -113,6 +129,7 @@ export class Order extends Entity<OrderProps> {
     }
     this.props.deliveryPhotoUrl = photoUrl
     this.props.deliveredAt = new Date()
+    this.addDomainEvent(new OrderChangeStatus(this))
   }
 
   returned(deliverymanId: UniqueEntityID) {
@@ -124,6 +141,7 @@ export class Order extends Entity<OrderProps> {
       throw new Error('Deliveryman is not authorized.')
     }
     this.props.returnedAt = new Date()
+    this.addDomainEvent(new OrderChangeStatus(this))
   }
 
   pickUp(deliverymanId: UniqueEntityID) {
@@ -133,14 +151,7 @@ export class Order extends Entity<OrderProps> {
 
     this.props.deliverymanId = deliverymanId
     this.props.pickedUpAt = new Date()
-  }
-
-  deliver() {
-    this.props.deliveredAt = new Date()
-  }
-
-  return() {
-    this.props.returnedAt = new Date()
+    this.addDomainEvent(new OrderChangeStatus(this))
   }
 
   static create(props: Optional<OrderProps, 'createdAt'>, id?: UniqueEntityID) {

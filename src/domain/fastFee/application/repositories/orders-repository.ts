@@ -1,5 +1,6 @@
 import type { PaginationParams } from '@/core/repositories/pagination-params'
-import type { Order } from '../../enterprise/entities/order'
+import { Order } from '../../enterprise/entities/order'
+import type { FindManyAvailableNearbyParams } from '@/core/repositories/find-many-nearby-params'
 
 export abstract class OrdersRepository {
   abstract create(order: Order): Promise<void>
@@ -7,4 +8,8 @@ export abstract class OrdersRepository {
   abstract save(order: Order): Promise<void>
   abstract delete(order: Order): Promise<void>
   abstract findManyOrder(page: PaginationParams): Promise<Order[]>
+  abstract findManyAvailableNearby(
+    params: FindManyAvailableNearbyParams,
+    page: PaginationParams,
+  ): Promise<Order[]>
 }
