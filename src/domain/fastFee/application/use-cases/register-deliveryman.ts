@@ -5,6 +5,7 @@ import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error'
 import { left, right, type Either } from '@/core/types/either'
+import { Injectable } from '@nestjs/common'
 
 interface RegisterDeliverymanUseCaseRequest {
   adminId: string
@@ -17,7 +18,7 @@ type RegisterDeliverymanUseCaseResponse = Either<
   UserAlreadyExistsError | NotAllowedError,
   { user: User }
 >
-
+@Injectable()
 export class RegisterDeliverymanUseCase {
   constructor(
     private usersRepository: UsersRepository,

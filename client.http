@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:3333
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "cpf": "117.569.880-64",
+  "password": "12345"
+}
+
+###
+
+# @name create_account
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+{
+  "name": "Fernando Vinicius melo",
+  "cpf": "859.646.110-87",
+  "password": "123457"
+}
+
+
+###

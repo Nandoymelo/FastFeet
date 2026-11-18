@@ -1,1 +1,31 @@
+# Dependências
 node_modules
+
+# Build
+dist
+
+# Variáveis de ambiente (chaves JWT, DATABASE_URL)
+.env
+.env.*
+!.env.example
+
+# Prisma client gerado
+/src/generated/prisma
+
+# Volume do Postgres (docker-compose)
+data/
+
+# Arquivos gerados ao compilar o vite.config.ts com tsc
+vite.config.js
+vite.config.js.map
+vite.config.d.ts
+vite.config.d.ts.map
+
+# Testes
+coverage
+
+# Logs
+*.log
+
+# Sistema / editor
+.DS_Store

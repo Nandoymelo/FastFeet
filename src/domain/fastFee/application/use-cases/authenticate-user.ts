@@ -1,9 +1,9 @@
-import type { HashCompare } from '@/core/cryptography/hash-compare'
 import { User } from '../../enterprise/entities/user'
 import { UsersRepository } from '../repositories/user-repository'
 import { Cpf } from '../../enterprise/entities/value-object/cpf'
 import { WrongCredentialsError } from '../../../../core/errors/wrong-credentials-error'
 import { left, right, type Either } from '@/core/types/either'
+import type { HashComparer } from '@/core/cryptography/hash-compare'
 
 interface AuthenticateUseCaseRequest {
   cpf: string
@@ -20,7 +20,7 @@ type AuthenticateUseCaseResponse = Either<
 export class AuthenticateUseCase {
   constructor(
     private usersRepository: UsersRepository,
-    private hashCompare: HashCompare,
+    private hashCompare: HashComparer,
   ) {}
 
   async execute({
