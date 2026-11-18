@@ -28,7 +28,7 @@ const bodyValidationPipe = new ZodValidationPipe(createAccountBodySchema)
 
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
-@Controller('/accounts')
+@Controller('/deliverymen')
 @UseGuards(JwtAuthGuard)
 export class CreateAccountController {
   constructor(private registerDeliverymanUsecase: RegisterDeliverymanUseCase) {}
@@ -40,7 +40,7 @@ export class CreateAccountController {
     @Body(bodyValidationPipe) body: CreateAccountBodySchema,
   ) {
     if (user.role !== 'ADMIN') {
-      throw new ForbiddenException('Only admins can create accounts.')
+      throw new ForbiddenException('Only admins can create deliverymen.')
     }
 
     const { name, cpf, password } = body

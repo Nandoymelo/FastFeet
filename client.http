@@ -14,12 +14,12 @@ Content-Type: application/json
 ###
 
 # @name create_account
-POST {{baseUrl}}/accounts
+POST {{baseUrl}}/deliverymen
 Content-Type: application/json
 Authorization: Bearer {{authenticate.response.body.access_token}}
 
 {
-  "name": "Fernando Vinicius melo",
+  "name": "Fernando ",
   "cpf": "859.646.110-87",
   "password": "123457"
 }

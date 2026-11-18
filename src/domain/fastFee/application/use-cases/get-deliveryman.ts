@@ -3,6 +3,7 @@ import { UsersRepository } from '../repositories/user-repository'
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error'
 import { User } from '../../enterprise/entities/user'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { Injectable } from '@nestjs/common'
 
 interface GetDeliverymanUseCaseRequest {
   adminId: string
@@ -15,6 +16,7 @@ type GetDeliverymanUseCaseResponse = Either<
     user: User
   }
 >
+@Injectable()
 export class GetDeliverymanUseCase {
   constructor(private usersRepository: UsersRepository) {}
 
