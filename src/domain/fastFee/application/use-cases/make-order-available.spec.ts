@@ -6,15 +6,20 @@ import { MakeOrderAvailableUseCase } from './make-order-available'
 import { MakeOrder } from '@/test/factories/make-order'
 import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
 import { OrderStatusTransitionError } from '../../../../core/errors/order-status-transition-error'
+import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
+let inMemoryRecipientRepository: InMemoryRecipientRepository
 let sut: MakeOrderAvailableUseCase
 
 describe('change the order available status.', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryRecipientRepository = new InMemoryRecipientRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      inMemoryRecipientRepository,
+    )
     sut = new MakeOrderAvailableUseCase(
       inMemoryUsersRepository,
       inMemoryOrderRepository,

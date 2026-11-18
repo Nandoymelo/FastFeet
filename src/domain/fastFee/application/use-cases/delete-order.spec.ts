@@ -5,15 +5,20 @@ import { DeleteOrderUseCase } from './delete-order'
 import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
 import { MakeOrder } from '@/test/factories/make-order'
 import { OrderCannotBeDeletedError } from '../../../../core/errors/order-cannot-delete-error'
+import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
+let inMemoryRecipientRepository: InMemoryRecipientRepository
 let sut: DeleteOrderUseCase
 
 describe('Delete a order', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryRecipientRepository = new InMemoryRecipientRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      inMemoryRecipientRepository,
+    )
     sut = new DeleteOrderUseCase(
       inMemoryUsersRepository,
       inMemoryOrderRepository,

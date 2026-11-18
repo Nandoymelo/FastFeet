@@ -7,16 +7,21 @@ import { OrderNotFoundError } from '../../../../core/errors/order-not-found-erro
 import { OrderStatusTransitionError } from '../../../../core/errors/order-status-transition-error'
 import { DeliverOrderUseCase } from './deliver-order'
 import { FakeStorageProvider } from '@/test/storage/fake-storage-provider'
+import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
+let inMemoryRecipientRepository: InMemoryRecipientRepository
 let fakeStorageProvider: FakeStorageProvider
 let sut: DeliverOrderUseCase
 
 describe('change order status to delivered.', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryRecipientRepository = new InMemoryRecipientRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      inMemoryRecipientRepository,
+    )
     fakeStorageProvider = new FakeStorageProvider()
     sut = new DeliverOrderUseCase(
       inMemoryUsersRepository,

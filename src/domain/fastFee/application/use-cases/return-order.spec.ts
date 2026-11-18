@@ -6,15 +6,20 @@ import { MakeOrder } from '@/test/factories/make-order'
 import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
 import { OrderStatusTransitionError } from '../../../../core/errors/order-status-transition-error'
 import { ReturnOrderUseCase } from './return-order'
+import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
+let inMemoryRecipientRepository: InMemoryRecipientRepository
 let sut: ReturnOrderUseCase
 
 describe('change order status to returned.', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      inMemoryRecipientRepository,
+    )
+    inMemoryRecipientRepository = new InMemoryRecipientRepository()
     sut = new ReturnOrderUseCase(
       inMemoryUsersRepository,
       inMemoryOrderRepository,

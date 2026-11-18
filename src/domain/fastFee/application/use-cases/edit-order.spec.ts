@@ -16,7 +16,9 @@ describe('Edite a Order', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      inMemoryRecipientRepository,
+    )
     sut = new EditOrderUseCase(
       inMemoryUsersRepository,
       inMemoryRecipientRepository,

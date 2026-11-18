@@ -110,10 +110,6 @@ export class Order extends AggregateRoot<OrderProps> {
     )
   }
 
-  findManyAvailable(): [] {
-    return !!this.props.availableAt && this.props.pickedUpAt
-  }
-
   makeAvailable() {
     this.props.availableAt = new Date()
     this.addDomainEvent(new OrderChangeStatus(this))
