@@ -26,17 +26,17 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
-@Controller('/deliverymen')
+@Controller('/deliveryman')
 @UseGuards(JwtAuthGuard)
-export class FetchDeliverymenController {
-  constructor(private fetchDeliverymen: FetchDeliverymenUseCase) {}
+export class FetchDeliverymanController {
+  constructor(private fetchDeliveryman: FetchDeliverymenUseCase) {}
 
   @Get()
   async handle(
     @CurrentUser() user: UserPayload,
     @Query('page', queryValidationPipe) page: PageQueryParamSchema,
   ) {
-    const result = await this.fetchDeliverymen.execute({
+    const result = await this.fetchDeliveryman.execute({
       adminId: user.sub,
       page,
     })

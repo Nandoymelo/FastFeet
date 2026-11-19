@@ -14,7 +14,7 @@ Content-Type: application/json
 ###
 
 # @name create_account
-POST {{baseUrl}}/deliverymen
+POST {{baseUrl}}/deliveryman
 Content-Type: application/json
 Authorization: Bearer {{authenticate.response.body.access_token}}
 

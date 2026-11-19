@@ -2,6 +2,7 @@ import { left, right, type Either } from '@/core/types/either'
 import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { User } from '../../enterprise/entities/user'
+import { Injectable } from '@nestjs/common'
 
 interface FetchDeliverymenUseCaseRequest {
   adminId: string
@@ -14,7 +15,7 @@ type FetchDeliverymenUseCaseResponse = Either<
     users: User[]
   }
 >
-
+@Injectable()
 export class FetchDeliverymenUseCase {
   constructor(private usersRepository: UsersRepository) {}
 

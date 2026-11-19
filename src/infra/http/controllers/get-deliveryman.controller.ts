@@ -15,7 +15,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 
-@Controller('/deliverymen/:id')
+@Controller('/deliveryman/:id')
 @UseGuards(JwtAuthGuard)
 export class GetDeliverymanController {
   constructor(private getDeliveryman: GetDeliverymanUseCase) {}

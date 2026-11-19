@@ -33,16 +33,35 @@ export class PrismaUsersRepository implements UsersRepository {
     return PrismaUserMapper.toDomain(user)
   }
 
-  findManyDeliverymen(params: PaginationParams): Promise<User[]> {
-    throw new Error('Method not implemented.')
+  async findManyDeliverymen({ page }: PaginationParams): Promise<User[]> {
+    const users = await this.prisma.user.findMany({
+      where: { role: 'DELIVERYMAN' },
+      orderBy: { name: 'asc' },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return users.map(PrismaUserMapper.toDomain)
   }
 
-  save(user: User): Promise<void> {
-    throw new Error('Method not implemented.')
+  async save(user: User): Promise<void> {
+    const data = PrismaUserMapper.toPrisma(user)
+
+    await this.prisma.user.update({
+      where: {
+        id: user.id.toString(),
+      },
+
+      data,
+    })
   }
 
-  delete(user: User): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(user: User): Promise<void> {
+    await this.prisma.user.delete({
+      where: {
+        id: user.id.toString(),
+      },
+    })
   }
 
   async create(user: User): Promise<void> {

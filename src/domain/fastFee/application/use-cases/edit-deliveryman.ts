@@ -5,6 +5,7 @@ import { UsersRepository } from '../repositories/user-repository'
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error'
 import { Cpf } from '../../enterprise/entities/value-object/cpf'
 import { UserAlreadyExistsError } from '../../../../core/errors/user-already-exists-error'
+import { Injectable } from '@nestjs/common'
 
 interface EditDeliverymanUseCaseRequest {
   adminId: string
@@ -14,12 +15,12 @@ interface EditDeliverymanUseCaseRequest {
 }
 
 type EditDeliverymanUseCaseResponse = Either<
-  NotAllowedError | UserAlreadyExistsError,
+  NotAllowedError | ResourceNotFoundError | UserAlreadyExistsError,
   {
     user: User
   }
 >
-
+@Injectable()
 export class EditDeliverymanUseCase {
   constructor(private usersRepository: UsersRepository) {}
 

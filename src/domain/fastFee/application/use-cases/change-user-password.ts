@@ -3,7 +3,8 @@ import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { User } from '../../enterprise/entities/user'
 import { UsersRepository } from '../repositories/user-repository'
 import { UserNotFoundError } from '../../../../core/errors/user-not-found-error'
-import type { HashGenerator } from '@/core/cryptography/hash-generator'
+import { HashGenerator } from '@/core/cryptography/hash-generator'
+import { Injectable } from '@nestjs/common'
 
 interface ChangeUserPasswordUseCaseRequest {
   adminId: string
@@ -17,7 +18,7 @@ type ChangeUserPasswordUseCaseResponse = Either<
     user: User
   }
 >
-
+@Injectable()
 export class ChangeUserPasswordUseCase {
   constructor(
     private usersRepository: UsersRepository,

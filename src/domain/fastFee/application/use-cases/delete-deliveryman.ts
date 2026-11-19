@@ -1,7 +1,8 @@
 import { left, right, type Either } from '@/core/types/either'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
-import type { UsersRepository } from '../repositories/user-repository'
+import { UsersRepository } from '../repositories/user-repository'
 import { ResourceNotFoundError } from '../../../../core/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteDeliverymanUseCaseRequest {
   adminId: string
@@ -12,7 +13,7 @@ type DeleteDeliverymanUseCaseResponse = Either<
   NotAllowedError | ResourceNotFoundError,
   null
 >
-
+@Injectable()
 export class DeleteDeliverymanUseCase {
   constructor(private usersRepository: UsersRepository) {}
 

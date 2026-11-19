@@ -28,7 +28,7 @@ describe('Get deliveryman (E2E)', () => {
     await app.close()
   })
 
-  test('[GET] /deliverymen/:id - admin busca um entregador', async () => {
+  test('[GET] /deliveryman/:id - admin busca um entregador', async () => {
     const admin = await userFactory.makePrismaUser({ role: 'ADMIN' })
     const accessToken = jwt.sign({ sub: admin.id.toString(), role: 'ADMIN' })
 
@@ -37,7 +37,7 @@ describe('Get deliveryman (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .get(`/deliverymen/${deliveryman.id.toString()}`)
+      .get(`/deliveryman/${deliveryman.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
 
     expect(response.statusCode).toBe(200)

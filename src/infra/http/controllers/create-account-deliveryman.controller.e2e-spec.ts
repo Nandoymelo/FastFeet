@@ -25,7 +25,7 @@ describe('Create Account (E2E)', () => {
     await app.close()
   })
 
-  test('[POST] /deliverymen - admin cria um entregador', async () => {
+  test('[POST] /deliveryman - admin cria um entregador', async () => {
     // Autentica como o admin criado pelo seed
     const session = await request(app.getHttpServer()).post('/sessions').send({
       cpf: '117.569.880-64',
@@ -35,7 +35,7 @@ describe('Create Account (E2E)', () => {
     const accessToken = session.body.access_token
 
     const response = await request(app.getHttpServer())
-      .post('/deliverymen')
+      .post('/deliveryman')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'Fernando Vinicius',
