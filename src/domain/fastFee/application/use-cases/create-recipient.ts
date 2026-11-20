@@ -1,8 +1,9 @@
 import { left, right, type Either } from '@/core/types/either'
-import type { RecipientRepository } from '../repositories/recipients-repository'
+import { RecipientRepository } from '../repositories/recipients-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { Recipient } from '../../enterprise/entities/recipient'
 import { UsersRepository } from '../repositories/user-repository'
+import { Injectable } from '@nestjs/common'
 
 interface CreateRecipientUseCaseRequest {
   adminId: string
@@ -18,7 +19,7 @@ type CreateRecipientUseCaseResponse = Either<
     recipient: Recipient
   }
 >
-
+@Injectable()
 export class CreateRecipientUseCase {
   constructor(
     private recipientsRepository: RecipientRepository,

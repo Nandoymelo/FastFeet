@@ -18,6 +18,37 @@ model User {
   name         String
   passwordHash String   @map("password_hash")
   role         UserRole
+  orders       Order[]
 
   @@map("users")
+}
+
+model Recipient {
+  id        String  @id @default(uuid())
+  name      String
+  address   String
+  latitude  Float
+  longitude Float
+  orders    Order[]
+
+  @@map("recipients")
+}
+
+model Order {
+  id               String    @id @default(uuid())
+  recipientId      String    @map("recipient_id")
+  deliverymanId    String?   @map("deliveryman_id")
+  deliveryPhotoUrl String?   @map("delivery_photo_url")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  availableAt      DateTime? @map("available_at")
+  pickedUpAt       DateTime? @map("picked_up_at")
+  deliveredAt      DateTime? @map("delivered_at")
+  returnedAt       DateTime? @map("returned_at")
+
+  recipient   Recipient @relation(fields: [recipientId], references: [id])
+  deliveryman User?     @relation(fields: [deliverymanId], references: [id])
+
+  @@index([recipientId])
+  @@index([deliverymanId])
+  @@map("orders")
 }

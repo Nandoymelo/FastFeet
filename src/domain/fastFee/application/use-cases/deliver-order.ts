@@ -6,7 +6,8 @@ import { Order } from '../../enterprise/entities/order'
 import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
 import { OrderStatusTransitionError } from '../../../../core/errors/order-status-transition-error'
 import { DeliveryPhotoRequiredError } from '../../../../core/errors/delivery-photo-required-error'
-import type { StorageProvider } from '../storage/storage-provider'
+import { StorageProvider } from '../storage/storage-provider'
+import { Injectable } from '@nestjs/common'
 
 interface DeliverOrderUseCaseRequest {
   deliverymanId: string
@@ -28,6 +29,7 @@ type DeliverOrderUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class DeliverOrderUseCase {
   constructor(
     private usersRepository: UsersRepository,

@@ -3,6 +3,7 @@ import { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
+import { Injectable } from '@nestjs/common'
 
 interface FetchNearbyOrdersUseCaseRequest {
   deliverymanId: string
@@ -18,6 +19,7 @@ type FetchNearbyOrdersUseCaseResponse = Either<
   }
 >
 const MAX_DISTANCE_IN_KM = 10
+@Injectable()
 export class FetchNearbyOrdersUseCase {
   constructor(
     private usersRepository: UsersRepository,

@@ -3,6 +3,7 @@ import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { Recipient } from '../../enterprise/entities/recipient'
 import { RecipientRepository } from '../repositories/recipients-repository'
+import { Injectable } from '@nestjs/common'
 
 interface FetchRecipientUseCaseRequest {
   adminId: string
@@ -15,7 +16,7 @@ type FetchRecipientUseCaseResponse = Either<
     recipients: Recipient[]
   }
 >
-
+@Injectable()
 export class FetchRecipientUseCase {
   constructor(
     private usersRepository: UsersRepository,

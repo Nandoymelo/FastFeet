@@ -5,6 +5,7 @@ import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { Order } from '../../enterprise/entities/order'
 import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
 import { OrderStatusTransitionError } from '../../../../core/errors/order-status-transition-error'
+import { Injectable } from '@nestjs/common'
 
 interface ReturnOrderUseCaseRequest {
   deliverymanId: string
@@ -18,6 +19,7 @@ type ReturnOrderUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class ReturnOrderUseCase {
   constructor(
     private usersRepository: UsersRepository,

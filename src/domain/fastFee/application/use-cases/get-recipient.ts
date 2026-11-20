@@ -4,6 +4,7 @@ import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { RecipientNotFoundError } from '../../../../core/errors/recipient-not-found-error'
 import { Recipient } from '../../enterprise/entities/recipient'
+import { Injectable } from '@nestjs/common'
 
 interface GetRecipientUseCaseRequest {
   adminId: string
@@ -16,6 +17,7 @@ type GetRecipientUseCaseResponse = Either<
     recipient: Recipient
   }
 >
+@Injectable()
 export class GetRecipientUseCase {
   constructor(
     private usersRepository: UsersRepository,

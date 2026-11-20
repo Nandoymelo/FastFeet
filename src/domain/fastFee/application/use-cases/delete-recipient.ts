@@ -3,6 +3,7 @@ import { RecipientRepository } from '../repositories/recipients-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { RecipientNotFoundError } from '../../../../core/errors/recipient-not-found-error'
 import { UsersRepository } from '../repositories/user-repository'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteRecipientUseCaseRequest {
   adminId: string
@@ -14,6 +15,7 @@ type DeleteRecipientUseCaseResponse = Either<
   null
 >
 
+@Injectable()
 export class DeleteRecipientUseCase {
   constructor(
     private usersRepository: UsersRepository,

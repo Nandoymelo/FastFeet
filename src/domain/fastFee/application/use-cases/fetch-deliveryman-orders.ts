@@ -3,6 +3,7 @@ import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
+import { Injectable } from '@nestjs/common'
 
 interface FetchDeliverymanOrdersUseCaseRequest {
   deliverymanId: string
@@ -16,6 +17,7 @@ type FetchDeliverymanOrdersUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class FetchDeliverymanOrdersUseCase {
   constructor(
     private usersRepository: UsersRepository,

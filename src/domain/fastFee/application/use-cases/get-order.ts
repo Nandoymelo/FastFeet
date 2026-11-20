@@ -4,6 +4,7 @@ import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
 import { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
+import { Injectable } from '@nestjs/common'
 
 interface GetOrdertUseCaseRequest {
   adminId: string
@@ -16,6 +17,7 @@ type GetOrdertUseCaseResponse = Either<
     order: Order
   }
 >
+@Injectable()
 export class GetOrderUseCase {
   constructor(
     private usersRepository: UsersRepository,

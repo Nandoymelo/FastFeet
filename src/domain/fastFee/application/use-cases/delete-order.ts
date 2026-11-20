@@ -4,6 +4,7 @@ import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
 import { OrderCannotBeDeletedError } from '../../../../core/errors/order-cannot-delete-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteOrderUseCaseRequest {
   adminId: string
@@ -15,6 +16,7 @@ type DeleteOrderUseCaseResponse = Either<
   null
 >
 
+@Injectable()
 export class DeleteOrderUseCase {
   constructor(
     private usersRepository: UsersRepository,

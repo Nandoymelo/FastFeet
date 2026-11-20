@@ -14,6 +14,18 @@ import { EditDeliverymanUseCase } from '@/domain/fastFee/application/use-cases/e
 import { EditDeliverymanController } from './controllers/edit-deliveryman.controller'
 import { ChangeUserPasswordUseCase } from '@/domain/fastFee/application/use-cases/change-user-password'
 import { ChangeUserPasswordController } from './controllers/change-user-password.controller'
+import { CreateRecipientController } from './controllers/create-recipient.controller'
+import { CreateRecipientUseCase } from '@/domain/fastFee/application/use-cases/create-recipient'
+import { GetRecipientController } from './controllers/get-recipient.controller'
+import { GetRecipientUseCase } from '@/domain/fastFee/application/use-cases/get-recipient'
+import { FetchRecipientController } from './controllers/fetch-recipient.controller'
+import { FetchRecipientUseCase } from '@/domain/fastFee/application/use-cases/fetch-recipients'
+import { EditRecipientController } from './controllers/edit-recipient.controller'
+import { EditRecipientUseCase } from '@/domain/fastFee/application/use-cases/edit-recipient'
+import { DeleteRecipientController } from './controllers/delete-recipient.controller'
+import { DeleteRecipientUseCase } from '@/domain/fastFee/application/use-cases/delete-recipient'
+import { CreateOrderController } from './controllers/create-order.controller'
+import { CreateOrderUseCase } from '@/domain/fastFee/application/use-cases/create-order'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -25,6 +37,12 @@ import { ChangeUserPasswordController } from './controllers/change-user-password
     DeleteDeliverymanController,
     EditDeliverymanController,
     ChangeUserPasswordController,
+    CreateRecipientController,
+    GetRecipientController,
+    FetchRecipientController,
+    EditRecipientController,
+    DeleteRecipientController,
+    CreateOrderController,
   ],
   providers: [
     RegisterDeliverymanUseCase,
@@ -33,6 +51,12 @@ import { ChangeUserPasswordController } from './controllers/change-user-password
     DeleteDeliverymanUseCase,
     EditDeliverymanUseCase,
     ChangeUserPasswordUseCase,
+    CreateRecipientUseCase,
+    GetRecipientUseCase,
+    FetchRecipientUseCase,
+    EditRecipientUseCase,
+    DeleteRecipientUseCase,
+    CreateOrderUseCase,
   ],
 })
 export class HttpModule {}

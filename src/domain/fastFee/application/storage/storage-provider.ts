@@ -1,3 +1,7 @@
-export interface StorageProvider {
-  upload(file: Buffer, fileName: string, contentType: string): Promise<string>
+export abstract class StorageProvider {
+  abstract upload(
+    file: Buffer,
+    fileName: string,
+    contentType: string,
+  ): Promise<string>
 }

@@ -1,4 +1,6 @@
 @baseUrl = http://localhost:3333
+@deliverymanId = cole-aqui-o-id-do-entregador
+@recipientId = cole-aqui-o-id-do-destinatario
 
 ###
 
@@ -24,5 +26,91 @@ Authorization: Bearer {{authenticate.response.body.access_token}}
   "password": "123457"
 }
 
+###
+
+# @name fetch_deliverymen
+GET {{baseUrl}}/deliveryman?page=1
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+
+# @name get_deliveryman
+GET {{baseUrl}}/deliveryman/{{deliverymanId}}
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+
+# @name edit_deliveryman
+PUT {{baseUrl}}/deliveryman/{{deliverymanId}}
+Content-Type: application/json
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+{
+  "name": "Fernando Melo",
+  "cpf": "859.646.110-87"
+}
+
+###
+
+# @name change_deliveryman_password
+PATCH {{baseUrl}}/deliveryman/{{deliverymanId}}/password
+Content-Type: application/json
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+{
+  "password": "654321"
+}
+
+###
+
+# @name delete_deliveryman
+DELETE {{baseUrl}}/deliveryman/{{deliverymanId}}
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+
+# @name create_recipient
+POST {{baseUrl}}/recipient
+Content-Type: application/json
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+{
+  "name": "Maria Souza",
+  "address": "Av. Paulista, 1578 - Bela Vista, São Paulo - SP",
+  "latitude": -23.5613,
+  "longitude": -46.6565
+}
+
+###
+
+# @name fetch_recipients
+GET {{baseUrl}}/recipient?page=1
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+
+# @name get_recipient
+GET {{baseUrl}}/recipient/{{recipientId}}
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+
+# @name edit_recipient
+PUT {{baseUrl}}/recipient/{{recipientId}}
+Content-Type: application/json
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+{
+  "name": "Maria Souza Lima",
+  "address": "Rua das Flores, 123 - Centro, Recife - PE",
+  "latitude": -8.0476,
+  "longitude": -34.877
+}
+
+###
+
+# @name delete_recipient
+DELETE {{baseUrl}}/recipient/{{recipientId}}
+Authorization: Bearer {{authenticate.response.body.access_token}}
 
 ###
