@@ -26,6 +26,14 @@ import { DeleteRecipientController } from './controllers/delete-recipient.contro
 import { DeleteRecipientUseCase } from '@/domain/fastFee/application/use-cases/delete-recipient'
 import { CreateOrderController } from './controllers/create-order.controller'
 import { CreateOrderUseCase } from '@/domain/fastFee/application/use-cases/create-order'
+import { GetOrderController } from './controllers/get-order.controller'
+import { GetOrderUseCase } from '@/domain/fastFee/application/use-cases/get-order'
+import { FetchOrderController } from './controllers/fetch-order.controller'
+import { FetchOrdersUseCase } from '@/domain/fastFee/application/use-cases/fetch-orders'
+import { DeleteOrderController } from './controllers/delete-order.controller'
+import { DeleteOrderUseCase } from '@/domain/fastFee/application/use-cases/delete-order'
+import { EditOrderController } from './controllers/edit-order.controller'
+import { EditOrderUseCase } from '@/domain/fastFee/application/use-cases/edit-order'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -43,6 +51,10 @@ import { CreateOrderUseCase } from '@/domain/fastFee/application/use-cases/creat
     EditRecipientController,
     DeleteRecipientController,
     CreateOrderController,
+    GetOrderController,
+    FetchOrderController,
+    DeleteOrderController,
+    EditOrderController,
   ],
   providers: [
     RegisterDeliverymanUseCase,
@@ -57,6 +69,10 @@ import { CreateOrderUseCase } from '@/domain/fastFee/application/use-cases/creat
     EditRecipientUseCase,
     DeleteRecipientUseCase,
     CreateOrderUseCase,
+    GetOrderUseCase,
+    FetchOrdersUseCase,
+    DeleteOrderUseCase,
+    EditOrderUseCase,
   ],
 })
 export class HttpModule {}

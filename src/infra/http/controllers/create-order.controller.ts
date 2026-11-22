@@ -18,7 +18,7 @@ import { CreateOrderUseCase } from '@/domain/fastFee/application/use-cases/creat
 import { RecipientNotFoundError } from '@/core/errors/recipient-not-found-error'
 
 const createOrderBodySchema = z.object({
-  recipientId: z.string().uuid(),
+  recipientId: z.uuid(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(createOrderBodySchema)

@@ -6,6 +6,7 @@ import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { RecipientNotFoundError } from '../../../../core/errors/recipient-not-found-error'
 import { OrderNotFoundError } from '../../../../core/errors/order-not-found-error'
+import { OrderCannotBeEditedError } from '../../../../core/errors/order-cannot-be-edited-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Injectable } from '@nestjs/common'
 
@@ -16,7 +17,10 @@ interface EditOrderUseCaseCaseRequest {
 }
 
 type EditOrderUseCaseCaseResponse = Either<
-  NotAllowedError | RecipientNotFoundError | OrderNotFoundError,
+  | NotAllowedError
+  | RecipientNotFoundError
+  | OrderNotFoundError
+  | OrderCannotBeEditedError,
   {
     order: Order
   }
@@ -52,14 +56,17 @@ export class EditOrderUseCase {
     if (!order) {
       return left(new OrderNotFoundError(orderId))
     }
+
+    // O try/catch cobre só a regra da entidade: assim, uma falha ao salvar
+    // não é confundida com "pedido não pode ser editado".
     try {
       order.changeRecipient(new UniqueEntityID(recipientId))
-
-      await this.ordersRepository.save(order)
-
-      return right({ order })
     } catch {
-      return left(new Error('Order cannot be edited after pickup.'))
+      return left(new OrderCannotBeEditedError())
     }
+
+    await this.ordersRepository.save(order)
+
+    return right({ order })
   }
 }

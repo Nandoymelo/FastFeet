@@ -3,6 +3,7 @@ import { makeUser } from '@/test/factories/make-user'
 import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 import { MakeRecipient } from '@/test/factories/make-recipient'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
+import { OrderCannotBeEditedError } from '../../../../core/errors/order-cannot-be-edited-error'
 import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
 import { MakeOrder } from '@/test/factories/make-order'
 import { EditOrderUseCase } from './edit-order'
@@ -60,6 +61,7 @@ describe('Edite a Order', () => {
     })
 
     expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(OrderCannotBeEditedError)
     expect(order.recipientId).not.toEqual(recipient.id)
   })
   it('should not be possible to edit an order, unless you are an admin.', async () => {
