@@ -34,6 +34,12 @@ import { DeleteOrderController } from './controllers/delete-order.controller'
 import { DeleteOrderUseCase } from '@/domain/fastFee/application/use-cases/delete-order'
 import { EditOrderController } from './controllers/edit-order.controller'
 import { EditOrderUseCase } from '@/domain/fastFee/application/use-cases/edit-order'
+import { FetchDeliverymanOrderController } from './controllers/fetch-deliveryman-order.controller'
+import { FetchDeliverymanOrdersUseCase } from '@/domain/fastFee/application/use-cases/fetch-deliveryman-orders'
+import { FetchNearbyOrdersController } from './controllers/fetch-nearby-order.controller'
+import { FetchNearbyOrdersUseCase } from '@/domain/fastFee/application/use-cases/fetch-nearby-orders'
+import { MakeOrderAvailableController } from './controllers/make-order-available.controller'
+import { MakeOrderAvailableUseCase } from '@/domain/fastFee/application/use-cases/make-order-available'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -51,10 +57,15 @@ import { EditOrderUseCase } from '@/domain/fastFee/application/use-cases/edit-or
     EditRecipientController,
     DeleteRecipientController,
     CreateOrderController,
+    // Rotas fixas (/order/mine, /order/nearby) precisam vir ANTES de
+    // GetOrderController (/order/:id), senão "mine" e "nearby" seriam lidos como id.
+    FetchDeliverymanOrderController,
+    FetchNearbyOrdersController,
     GetOrderController,
     FetchOrderController,
     DeleteOrderController,
     EditOrderController,
+    MakeOrderAvailableController,
   ],
   providers: [
     RegisterDeliverymanUseCase,
@@ -73,6 +84,9 @@ import { EditOrderUseCase } from '@/domain/fastFee/application/use-cases/edit-or
     FetchOrdersUseCase,
     DeleteOrderUseCase,
     EditOrderUseCase,
+    FetchDeliverymanOrdersUseCase,
+    FetchNearbyOrdersUseCase,
+    MakeOrderAvailableUseCase,
   ],
 })
 export class HttpModule {}
