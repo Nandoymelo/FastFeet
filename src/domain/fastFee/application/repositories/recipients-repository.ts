@@ -6,5 +6,6 @@ export abstract class RecipientRepository {
   abstract save(recipient: Recipient): Promise<void>
   abstract delete(recipient: Recipient): Promise<void>
   abstract findById(id: string): Promise<Recipient | null>
+  abstract findManyByIds(ids: string[]): Promise<Recipient[]>
   abstract findManyRecipient(params: PaginationParams): Promise<Recipient[]>
 }

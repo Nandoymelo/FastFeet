@@ -4,6 +4,7 @@ import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-rep
 import { MakeOrder } from '@/test/factories/make-order'
 import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 import { FetchDeliverymanOrdersUseCase } from './fetch-deliveryman-orders'
+import { MakeRecipient } from '@/test/factories/make-recipient'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
@@ -20,6 +21,7 @@ describe('Fetch a deliveryman orders', () => {
     sut = new FetchDeliverymanOrdersUseCase(
       inMemoryUsersRepository,
       inMemoryOrderRepository,
+      inMemoryRecipientRepository,
     )
   })
 
@@ -84,6 +86,26 @@ describe('Fetch a deliveryman orders', () => {
     expect(result.isRight()).toBe(true)
     if (result.isRight()) {
       expect(result.value.orders).toHaveLength(2)
+    }
+  })
+
+  it('should return the recipient of each order', async () => {
+    const deliveryman = makeUser({ role: 'DELIVERYMAN' })
+    const recipient = MakeRecipient()
+    await inMemoryUsersRepository.create(deliveryman)
+    await inMemoryRecipientRepository.create(recipient)
+    await inMemoryOrderRepository.create(
+      MakeOrder({ recipientId: recipient.id, deliverymanId: deliveryman.id }),
+    )
+
+    const result = await sut.execute({
+      deliverymanId: deliveryman.id.toString(),
+      page: 1,
+    })
+
+    expect(result.isRight()).toBe(true)
+    if (result.isRight()) {
+      expect(result.value.recipients).toEqual([recipient])
     }
   })
 })

@@ -4,6 +4,8 @@ import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { Order } from '../../enterprise/entities/order'
 import { OrdersRepository } from '../repositories/orders-repository'
 import { Injectable } from '@nestjs/common'
+import { RecipientRepository } from '../repositories/recipients-repository'
+import { Recipient } from '../../enterprise/entities/recipient'
 
 interface FetchDeliverymanOrdersUseCaseRequest {
   deliverymanId: string
@@ -14,6 +16,7 @@ type FetchDeliverymanOrdersUseCaseResponse = Either<
   NotAllowedError,
   {
     orders: Order[]
+    recipients: Recipient[]
   }
 >
 
@@ -22,6 +25,7 @@ export class FetchDeliverymanOrdersUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private ordersRepository: OrdersRepository,
+    private recipientsRepository: RecipientRepository,
   ) {}
 
   async execute({
@@ -38,6 +42,11 @@ export class FetchDeliverymanOrdersUseCase {
       deliverymanId,
       { page },
     )
-    return right({ orders })
+    // o entregador precisa do endereço de cada pedido listado
+    const recipients = await this.recipientsRepository.findManyByIds(
+      orders.map((order) => order.recipientId.toString()),
+    )
+
+    return right({ orders, recipients })
   }
 }

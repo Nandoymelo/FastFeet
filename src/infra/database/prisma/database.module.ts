@@ -6,6 +6,8 @@ import { RecipientRepository } from '@/domain/fastFee/application/repositories/r
 import { PrismaRecipientsRepository } from './repositories/prisma-recipients-repository'
 import { OrdersRepository } from '@/domain/fastFee/application/repositories/orders-repository'
 import { PrismaOrdersRepository } from './repositories/prisma-orders-repository'
+import { NotificationsRepository } from '@/domain/notification/application/repositories/notifications-repository'
+import { PrismaNotificationsRepository } from './repositories/prisma-notifications-repository'
 
 @Global()
 @Module({
@@ -14,12 +16,17 @@ import { PrismaOrdersRepository } from './repositories/prisma-orders-repository'
     { provide: UsersRepository, useClass: PrismaUsersRepository },
     { provide: RecipientRepository, useClass: PrismaRecipientsRepository },
     { provide: OrdersRepository, useClass: PrismaOrdersRepository },
+    {
+      provide: NotificationsRepository,
+      useClass: PrismaNotificationsRepository,
+    },
   ],
   exports: [
     PrismaService,
     UsersRepository,
     RecipientRepository,
     OrdersRepository,
+    NotificationsRepository,
   ],
 })
 export class DatabaseModule {}

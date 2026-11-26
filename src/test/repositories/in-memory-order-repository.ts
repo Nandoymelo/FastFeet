@@ -70,6 +70,18 @@ export class InMemoryOrderRepository implements OrdersRepository {
     DomainEvents.dispatchEventsForAggregate(order.id)
   }
 
+  async savePickUp(order: Order) {
+    await this.save(order)
+
+    return true
+  }
+
+  async hasOrdersByRecipientId(recipientId: string) {
+    return this.items.some(
+      (order) => order.recipientId.toString() === recipientId,
+    )
+  }
+
   async create(order: Order) {
     this.items.push(order)
   }

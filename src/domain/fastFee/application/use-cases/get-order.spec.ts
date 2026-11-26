@@ -1,3 +1,4 @@
+import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliveryman-repository'
 import { makeUser } from '@/test/factories/make-user'
 import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
@@ -13,7 +14,9 @@ let sut: GetOrderUseCase
 describe('Get a Order', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      new InMemoryRecipientRepository(),
+    )
     sut = new GetOrderUseCase(inMemoryUsersRepository, inMemoryOrderRepository)
   })
 

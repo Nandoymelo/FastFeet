@@ -48,4 +48,20 @@ describe('Get deliveryman (E2E)', () => {
       }),
     )
   })
+
+  test('[GET] /deliveryman/:id - retorna 403 para um entregador', async () => {
+    const courier = await userFactory.makePrismaUser({ role: 'DELIVERYMAN' })
+    const accessToken = jwt.sign({
+      sub: courier.id.toString(),
+      role: 'DELIVERYMAN',
+    })
+    const target = await userFactory.makePrismaUser({ role: 'DELIVERYMAN' })
+
+    const response = await request(app.getHttpServer())
+      .get(`/deliveryman/${target.id.toString()}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+
+    expect(response.statusCode).toBe(403)
+    expect(response.body.deliveryman).toBeUndefined()
+  })
 })

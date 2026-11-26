@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { DomainEvents } from '@/core/events/domain-events'
+import { Logger } from '@nestjs/common'
 import { SendNotificationUseCase } from '@/domain/notification/application/use-cases/send-notification'
 import { OnOrderChangeStatus } from '@/domain/notification/application/subscribre/on-order-change-status'
 import { makeUser } from '@/test/factories/make-user'
@@ -11,6 +12,8 @@ let sendNotification: SendNotificationUseCase
 describe('On Order Change Status', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    // evita handlers acumulados dos testes anteriores
+    DomainEvents.clearHandlers()
 
     sendNotification = {
       execute: vi.fn(),
@@ -93,6 +96,19 @@ describe('On Order Change Status', () => {
       title: 'Atualização da sua encomenda',
       content: 'Sua encomenda foi devolvida.',
     })
+  })
+  it('should not throw if the notification cannot be sent', async () => {
+    vi.mocked(sendNotification.execute).mockRejectedValueOnce(new Error('fail'))
+    const loggerSpy = vi
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => {})
+
+    const order = MakeOrder()
+    order.makeAvailable()
+    DomainEvents.dispatchEventsForAggregate(order.id)
+
+    await vi.waitFor(() => expect(loggerSpy).toHaveBeenCalled())
+    loggerSpy.mockRestore()
   })
   it('should send notifications to different recipients', async () => {
     const recipient1 = MakeRecipient()

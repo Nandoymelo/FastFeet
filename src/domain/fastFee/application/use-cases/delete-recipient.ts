@@ -4,6 +4,8 @@ import { NotAllowedError } from '../../../../core/errors/not-allowed-error'
 import { RecipientNotFoundError } from '../../../../core/errors/recipient-not-found-error'
 import { UsersRepository } from '../repositories/user-repository'
 import { Injectable } from '@nestjs/common'
+import { OrdersRepository } from '../repositories/orders-repository'
+import { RecipientHasOrdersError } from '../../../../core/errors/recipient-has-orders-error'
 
 interface DeleteRecipientUseCaseRequest {
   adminId: string
@@ -11,7 +13,7 @@ interface DeleteRecipientUseCaseRequest {
 }
 
 type DeleteRecipientUseCaseResponse = Either<
-  NotAllowedError | RecipientNotFoundError,
+  NotAllowedError | RecipientNotFoundError | RecipientHasOrdersError,
   null
 >
 
@@ -20,6 +22,7 @@ export class DeleteRecipientUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private recipientRepository: RecipientRepository,
+    private ordersRepository: OrdersRepository,
   ) {}
 
   async execute({
@@ -37,6 +40,11 @@ export class DeleteRecipientUseCase {
     if (!recipient) {
       return left(new RecipientNotFoundError(recipientId))
     }
+
+    if (await this.ordersRepository.hasOrdersByRecipientId(recipientId)) {
+      return left(new RecipientHasOrdersError())
+    }
+
     await this.recipientRepository.delete(recipient)
 
     return right(null)

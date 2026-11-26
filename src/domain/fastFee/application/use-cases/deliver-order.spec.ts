@@ -143,4 +143,31 @@ describe('change order status to delivered.', () => {
     expect(result.value).toBeInstanceOf(OrderStatusTransitionError)
     expect(order.deliveredAt).toEqual(orginalDeliveredAt)
   })
+  it('should not be possible to deliver an order picked up by another deliveryman', async () => {
+    const deliveryman = makeUser({ role: 'DELIVERYMAN' })
+    const otherDeliveryman = makeUser({ role: 'DELIVERYMAN' })
+    const order = MakeOrder({
+      availableAt: new Date(),
+      pickedUpAt: new Date(),
+      deliverymanId: otherDeliveryman.id,
+    })
+
+    inMemoryUsersRepository.items.push(deliveryman, otherDeliveryman)
+    inMemoryOrderRepository.items.push(order)
+
+    const result = await sut.execute({
+      deliverymanId: deliveryman.id.toString(),
+      orderId: order.id.toString(),
+      photo: {
+        buffer: Buffer.from('fake image content'),
+        fileName: 'delivery-photo.jpg',
+        contentType: 'image/jpeg',
+      },
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
+    expect(order.deliveredAt).toBeUndefined()
+    expect(fakeStorageProvider.uploads).toHaveLength(0)
+  })
 })

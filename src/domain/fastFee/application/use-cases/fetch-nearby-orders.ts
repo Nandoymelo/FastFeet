@@ -4,6 +4,8 @@ import { OrdersRepository } from '../repositories/orders-repository'
 import { UsersRepository } from '../repositories/user-repository'
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { Injectable } from '@nestjs/common'
+import { RecipientRepository } from '../repositories/recipients-repository'
+import { Recipient } from '../../enterprise/entities/recipient'
 
 interface FetchNearbyOrdersUseCaseRequest {
   deliverymanId: string
@@ -16,6 +18,7 @@ type FetchNearbyOrdersUseCaseResponse = Either<
   NotAllowedError,
   {
     orders: Order[]
+    recipients: Recipient[]
   }
 >
 const MAX_DISTANCE_IN_KM = 10
@@ -24,6 +27,7 @@ export class FetchNearbyOrdersUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private ordersRepository: OrdersRepository,
+    private recipientsRepository: RecipientRepository,
   ) {}
 
   async execute({
@@ -47,6 +51,11 @@ export class FetchNearbyOrdersUseCase {
       { page },
     )
 
-    return right({ orders })
+    // o entregador precisa do endereço de cada pedido listado
+    const recipients = await this.recipientsRepository.findManyByIds(
+      orders.map((order) => order.recipientId.toString()),
+    )
+
+    return right({ orders, recipients })
   }
 }

@@ -24,6 +24,9 @@ vite.config.d.ts.map
 # Testes
 coverage
 
+# Fotos de entrega enviadas (armazenamento local)
+/uploads/
+
 # Logs
 *.log
 

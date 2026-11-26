@@ -1,11 +1,13 @@
 import { NotAllowedError } from '@/core/errors/not-allowed-error'
 import { RecipientNotFoundError } from '@/core/errors/recipient-not-found-error'
+import { RecipientHasOrdersError } from '@/core/errors/recipient-has-orders-error'
 import { DeleteRecipientUseCase } from '@/domain/fastFee/application/use-cases/delete-recipient'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import type { UserPayload } from '@/infra/auth/jwt.strategy'
 import {
   BadRequestException,
+  ConflictException,
   Controller,
   Delete,
   ForbiddenException,
@@ -36,6 +38,8 @@ export class DeleteRecipientController {
           throw new ForbiddenException(error.message)
         case RecipientNotFoundError:
           throw new NotFoundException(error.message)
+        case RecipientHasOrdersError:
+          throw new ConflictException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

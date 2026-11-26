@@ -60,4 +60,26 @@ describe('Edit deliveryman (E2E)', () => {
 
     expect(deliverymanOnDatabase).toBeTruthy()
   })
+
+  test('[PUT] /deliveryman/:id - retorna 403 para um entregador', async () => {
+    const courier = await userFactory.makePrismaUser({ role: 'DELIVERYMAN' })
+    const accessToken = jwt.sign({
+      sub: courier.id.toString(),
+      role: 'DELIVERYMAN',
+    })
+    const target = await userFactory.makePrismaUser({ role: 'DELIVERYMAN' })
+
+    const response = await request(app.getHttpServer())
+      .put(`/deliveryman/${target.id.toString()}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({ name: 'Nome Alterado', cpf: '390.533.447-05' })
+
+    expect(response.statusCode).toBe(403)
+
+    const targetOnDatabase = await prisma.user.findUnique({
+      where: { id: target.id.toString() },
+    })
+
+    expect(targetOnDatabase?.name).toBe(target.name)
+  })
 })

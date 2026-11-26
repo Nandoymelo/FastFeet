@@ -42,7 +42,38 @@ export class PrismaOrdersRepository implements OrdersRepository {
       data,
     })
 
-    DomainEvents.dispatchEventsForAggregate(order.id)
+    DomainEvents.dispatchEvents(order)
+  }
+
+  async savePickUp(order: Order): Promise<boolean> {
+    const data = PrismaOrderMapper.toPrisma(order)
+
+    // A condição vai no próprio UPDATE, então o banco garante que só uma
+    // retirada simultânea altera a linha.
+    const { count } = await this.prisma.order.updateMany({
+      where: {
+        id: order.id.toString(),
+        availableAt: { not: null },
+        pickedUpAt: null,
+      },
+      data,
+    })
+
+    if (count === 0) {
+      DomainEvents.discardEvents(order)
+
+      return false
+    }
+
+    DomainEvents.dispatchEvents(order)
+
+    return true
+  }
+
+  async hasOrdersByRecipientId(recipientId: string): Promise<boolean> {
+    const count = await this.prisma.order.count({ where: { recipientId } })
+
+    return count > 0
   }
 
   async delete(order: Order): Promise<void> {

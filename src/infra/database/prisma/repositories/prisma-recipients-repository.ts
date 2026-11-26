@@ -46,6 +46,14 @@ export class PrismaRecipientsRepository implements RecipientRepository {
     return PrismaRecipientMapper.toDomain(recipient)
   }
 
+  async findManyByIds(ids: string[]): Promise<Recipient[]> {
+    const recipients = await this.prisma.recipient.findMany({
+      where: { id: { in: ids } },
+    })
+
+    return recipients.map(PrismaRecipientMapper.toDomain)
+  }
+
   async findManyRecipient({ page }: PaginationParams): Promise<Recipient[]> {
     const recipients = await this.prisma.recipient.findMany({
       orderBy: { name: 'asc' },

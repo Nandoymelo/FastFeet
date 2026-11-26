@@ -58,6 +58,12 @@ export class DeliverOrderUseCase {
       return left(new OrderStatusTransitionError())
     }
 
+    // Só quem retirou o pedido pode entregá-lo. A checagem vem antes do upload,
+    // para não guardar a foto de uma entrega recusada.
+    if (!order.deliverymanId?.equals(deliveryman.id)) {
+      return left(new NotAllowedError(deliveryman.id.toString()))
+    }
+
     if (!photo.buffer || photo.buffer.length === 0) {
       return left(new DeliveryPhotoRequiredError())
     }

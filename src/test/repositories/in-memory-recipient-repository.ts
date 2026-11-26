@@ -31,6 +31,10 @@ export class InMemoryRecipientRepository implements RecipientRepository {
     return recipient
   }
 
+  async findManyByIds(ids: string[]) {
+    return this.items.filter((item) => ids.includes(item.id.toString()))
+  }
+
   async delete(recipient: Recipient) {
     const recipientIndex = this.items.findIndex(
       (item) => item.id === recipient.id,

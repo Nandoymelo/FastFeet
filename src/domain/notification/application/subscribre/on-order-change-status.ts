@@ -3,6 +3,7 @@ import { SendNotificationUseCase } from '../use-cases/send-notification'
 import { DomainEvents } from '@/core/events/domain-events'
 import { OrderChangeStatus } from '@/domain/fastFee/enterprise/events/order-change-status'
 import type { OrderStatus } from '@/core/entities/order-status'
+import { Injectable, Logger } from '@nestjs/common'
 
 const messages: Record<OrderStatus, string> = {
   PENDING: 'Sua encomenda foi registrada.',
@@ -12,7 +13,10 @@ const messages: Record<OrderStatus, string> = {
   RETURNED: 'Sua encomenda foi devolvida.',
 }
 
+@Injectable()
 export class OnOrderChangeStatus implements EventHandler {
+  private readonly logger = new Logger(OnOrderChangeStatus.name)
+
   constructor(private sendNotification: SendNotificationUseCase) {
     this.setupSubscriptions()
   }
@@ -25,10 +29,19 @@ export class OnOrderChangeStatus implements EventHandler {
   }
 
   private async sendOrderStatusNotification({ order }: OrderChangeStatus) {
-    await this.sendNotification.execute({
-      recipientId: order.recipientId.toString(),
-      title: 'Atualização da sua encomenda',
-      content: messages[order.status],
-    })
+    // O DomainEvents não espera este handler: sem o catch, uma falha ao enviar
+    // viraria uma rejeição não tratada e derrubaria a aplicação.
+    try {
+      await this.sendNotification.execute({
+        recipientId: order.recipientId.toString(),
+        title: 'Atualização da sua encomenda',
+        content: messages[order.status],
+      })
+    } catch (error) {
+      this.logger.error(
+        `Failed to notify about order ${order.id.toString()}`,
+        error instanceof Error ? error.stack : String(error),
+      )
+    }
   }
 }

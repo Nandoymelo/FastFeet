@@ -1,3 +1,4 @@
+import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recipient-repository'
 import { InMemoryUsersRepository } from '@/test/repositories/in-memory-deliveryman-repository'
 import { makeUser } from '@/test/factories/make-user'
 import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
@@ -11,7 +12,9 @@ let sut: FetchOrdersUseCase
 describe('Fetch orders', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      new InMemoryRecipientRepository(),
+    )
     sut = new FetchOrdersUseCase(
       inMemoryUsersRepository,
       inMemoryOrderRepository,

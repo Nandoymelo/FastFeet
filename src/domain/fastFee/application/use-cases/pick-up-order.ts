@@ -48,7 +48,11 @@ export class PickUpOrderUseCase {
 
     order.pickUp(deliveryman.id)
 
-    await this.ordersRepository.save(order)
+    const saved = await this.ordersRepository.savePickUp(order)
+
+    if (!saved) {
+      return left(new OrderStatusTransitionError())
+    }
 
     return right({ order })
   }

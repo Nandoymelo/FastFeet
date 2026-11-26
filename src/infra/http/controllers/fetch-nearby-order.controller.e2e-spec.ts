@@ -108,6 +108,11 @@ describe('Fetch nearby orders (E2E)', () => {
       nearOrder.id.toString(),
       midOrder.id.toString(),
     ])
+    expect(
+      response.body.orders.map(
+        (order: { recipient: { address: string } }) => order.recipient.address,
+      ),
+    ).toEqual([near.address, mid.address])
   })
 
   test('[GET] /order/nearby - respeita a paginação', async () => {

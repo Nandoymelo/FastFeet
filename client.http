@@ -1,6 +1,7 @@
 @baseUrl = http://localhost:3333
 @deliverymanId = cole-aqui-o-id-do-entregador
 @recipientId = cole-aqui-o-id-do-destinatario
+@orderId = cole-aqui-o-id-do-pedido
 
 ###
 
@@ -112,5 +113,108 @@ Authorization: Bearer {{authenticate.response.body.access_token}}
 # @name delete_recipient
 DELETE {{baseUrl}}/recipient/{{recipientId}}
 Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+# Pedidos (administrador)
+###
+
+# @name create_order
+POST {{baseUrl}}/order
+Content-Type: application/json
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+{
+  "recipientId": "{{recipientId}}"
+}
+
+###
+
+# @name fetch_orders
+GET {{baseUrl}}/order?page=1
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+
+# @name get_order
+GET {{baseUrl}}/order/{{orderId}}
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+
+# @name edit_order
+# Troca o destinatário (só antes da retirada)
+PUT {{baseUrl}}/order/{{orderId}}
+Content-Type: application/json
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+{
+  "recipientId": "{{recipientId}}"
+}
+
+###
+
+# @name make_order_available
+PATCH {{baseUrl}}/order/{{orderId}}/available
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+
+# @name delete_order
+# Só antes da retirada
+DELETE {{baseUrl}}/order/{{orderId}}
+Authorization: Bearer {{authenticate.response.body.access_token}}
+
+###
+# Pedidos (entregador)
+###
+
+# @name authenticate_deliveryman
+# Entregador criado em create_account (se trocou a senha, use a nova)
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "cpf": "859.646.110-87",
+  "password": "123457"
+}
+
+###
+
+# @name fetch_nearby_orders
+GET {{baseUrl}}/order/nearby?latitude=-23.5613&longitude=-46.6565&page=1
+Authorization: Bearer {{authenticate_deliveryman.response.body.access_token}}
+
+###
+
+# @name fetch_my_orders
+GET {{baseUrl}}/order/mine?page=1
+Authorization: Bearer {{authenticate_deliveryman.response.body.access_token}}
+
+###
+
+# @name pick_up_order
+PATCH {{baseUrl}}/order/{{orderId}}/pickup
+Authorization: Bearer {{authenticate_deliveryman.response.body.access_token}}
+
+###
+
+# @name deliver_order
+# Coloque uma imagem foto.jpg na pasta deste arquivo
+PATCH {{baseUrl}}/order/{{orderId}}/deliver
+Content-Type: multipart/form-data; boundary=FastFeetBoundary
+Authorization: Bearer {{authenticate_deliveryman.response.body.access_token}}
+
+--FastFeetBoundary
+Content-Disposition: form-data; name="photo"; filename="foto.jpg"
+Content-Type: image/jpeg
+
+< ./foto.jpg
+--FastFeetBoundary--
+
+###
+
+# @name return_order
+PATCH {{baseUrl}}/order/{{orderId}}/return
+Authorization: Bearer {{authenticate_deliveryman.response.body.access_token}}
 
 ###

@@ -52,8 +52,12 @@ export class FetchDeliverymanOrderController {
       }
     }
 
-    const { orders } = result.value
+    const { orders, recipients } = result.value
 
-    return { orders: orders.map(OrderPresenter.toHTTP) }
+    return {
+      orders: orders.map((order) =>
+        OrderPresenter.toHTTPWithRecipient(order, recipients),
+      ),
+    }
   }
 }

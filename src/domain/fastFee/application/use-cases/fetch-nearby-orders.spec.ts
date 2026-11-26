@@ -21,6 +21,7 @@ describe('Fetch for nearby orders ', () => {
     sut = new FetchNearbyOrdersUseCase(
       inMemoryUsersRepository,
       inMemoryOrderRepository,
+      inMemoryRecipientRepository,
     )
   })
 

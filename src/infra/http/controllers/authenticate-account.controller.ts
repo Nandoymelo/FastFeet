@@ -1,3 +1,6 @@
+import { Encrypter } from '@/core/cryptography/encrypter'
+import { AuthenticateUseCase } from '@/domain/fastFee/application/use-cases/authenticate-user'
+import { Cpf } from '@/domain/fastFee/enterprise/entities/value-object/cpf'
 import {
   Body,
   Controller,
@@ -5,12 +8,8 @@ import {
   UnauthorizedException,
   UsePipes,
 } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
-import { compare } from 'bcryptjs'
 import { z } from 'zod'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { Cpf } from '@/domain/fastFee/enterprise/entities/value-object/cpf'
 
 const authenticateBodySchema = z.object({
   cpf: z.string().transform(Cpf.normalize),
@@ -22,8 +21,8 @@ type AuthenticateBodySchema = z.infer<typeof authenticateBodySchema>
 @Controller('/sessions')
 export class AuthenticateController {
   constructor(
-    private jwt: JwtService,
-    private prisma: PrismaService,
+    private authenticate: AuthenticateUseCase,
+    private encrypter: Encrypter,
   ) {}
 
   @Post()
@@ -31,21 +30,18 @@ export class AuthenticateController {
   async handle(@Body() body: AuthenticateBodySchema) {
     const { cpf, password } = body
 
-    const user = await this.prisma.user.findUnique({
-      where: { cpf },
+    const result = await this.authenticate.execute({ cpf, password })
+
+    if (result.isLeft()) {
+      throw new UnauthorizedException('User credentials do not match.')
+    }
+
+    const { user } = result.value
+
+    const accessToken = await this.encrypter.encrypt({
+      sub: user.id.toString(),
+      role: user.role,
     })
-
-    if (!user) {
-      throw new UnauthorizedException('User credentials do not match.')
-    }
-
-    const isPasswordValid = await compare(password, user.passwordHash)
-
-    if (!isPasswordValid) {
-      throw new UnauthorizedException('User credentials do not match.')
-    }
-
-    const accessToken = this.jwt.sign({ sub: user.id, role: user.role })
 
     return { access_token: accessToken }
   }

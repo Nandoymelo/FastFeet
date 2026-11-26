@@ -40,9 +40,17 @@ import { FetchNearbyOrdersController } from './controllers/fetch-nearby-order.co
 import { FetchNearbyOrdersUseCase } from '@/domain/fastFee/application/use-cases/fetch-nearby-orders'
 import { MakeOrderAvailableController } from './controllers/make-order-available.controller'
 import { MakeOrderAvailableUseCase } from '@/domain/fastFee/application/use-cases/make-order-available'
+import { ReturnOrderController } from './controllers/return-order.controller'
+import { ReturnOrderUseCase } from '@/domain/fastFee/application/use-cases/return-order'
+import { DeliverOrderController } from './controllers/deliver-order.controller'
+import { DeliverOrderUseCase } from '@/domain/fastFee/application/use-cases/deliver-order'
+import { StorageModule } from '../storage/storage.module'
+import { PickUpOrderController } from './controllers/pick-up-order.controller'
+import { PickUpOrderUseCase } from '@/domain/fastFee/application/use-cases/pick-up-order'
+import { AuthenticateUseCase } from '@/domain/fastFee/application/use-cases/authenticate-user'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [DatabaseModule, CryptographyModule, StorageModule],
   controllers: [
     AuthenticateController,
     CreateAccountController,
@@ -66,8 +74,12 @@ import { MakeOrderAvailableUseCase } from '@/domain/fastFee/application/use-case
     DeleteOrderController,
     EditOrderController,
     MakeOrderAvailableController,
+    PickUpOrderController,
+    ReturnOrderController,
+    DeliverOrderController,
   ],
   providers: [
+    AuthenticateUseCase,
     RegisterDeliverymanUseCase,
     GetDeliverymanUseCase,
     FetchDeliverymenUseCase,
@@ -87,6 +99,9 @@ import { MakeOrderAvailableUseCase } from '@/domain/fastFee/application/use-case
     FetchDeliverymanOrdersUseCase,
     FetchNearbyOrdersUseCase,
     MakeOrderAvailableUseCase,
+    PickUpOrderUseCase,
+    ReturnOrderUseCase,
+    DeliverOrderUseCase,
   ],
 })
 export class HttpModule {}

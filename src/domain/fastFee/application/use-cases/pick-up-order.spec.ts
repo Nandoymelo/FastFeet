@@ -90,4 +90,20 @@ describe('change the order pickup status.', () => {
     expect(result.value).toBeInstanceOf(OrderStatusTransitionError)
     expect(order.pickedUpAt).toEqual(orginalPickedUpAt)
   })
+  it('should fail if another pickup is saved first', async () => {
+    const deliveryman = makeUser({ role: 'DELIVERYMAN' })
+    const order = MakeOrder({ availableAt: new Date() })
+
+    inMemoryUsersRepository.items.push(deliveryman)
+    inMemoryOrderRepository.items.push(order)
+    vi.spyOn(inMemoryOrderRepository, 'savePickUp').mockResolvedValueOnce(false)
+
+    const result = await sut.execute({
+      deliverymanId: deliveryman.id.toString(),
+      orderId: order.id.toString(),
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(OrderStatusTransitionError)
+  })
 })

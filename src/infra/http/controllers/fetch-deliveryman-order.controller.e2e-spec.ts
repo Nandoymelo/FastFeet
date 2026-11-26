@@ -75,6 +75,13 @@ describe('Fetch order deliveryman (E2E)', () => {
 
     expect(response.statusCode).toBe(200)
     expect(response.body.orders).toHaveLength(2)
+    expect(response.body.orders[0].recipient).toEqual({
+      id: recipient.id.toString(),
+      name: recipient.name,
+      address: recipient.address,
+      latitude: recipient.latitude,
+      longitude: recipient.longitude,
+    })
     expect(response.body.orders).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: order1.id.toString() }),

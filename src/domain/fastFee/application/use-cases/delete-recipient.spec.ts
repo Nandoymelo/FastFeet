@@ -5,18 +5,26 @@ import { InMemoryRecipientRepository } from '@/test/repositories/in-memory-recip
 import { DeleteRecipientUseCase } from './delete-recipient'
 import { MakeRecipient } from '@/test/factories/make-recipient'
 import { RecipientNotFoundError } from '../../../../core/errors/recipient-not-found-error'
+import { RecipientHasOrdersError } from '../../../../core/errors/recipient-has-orders-error'
+import { InMemoryOrderRepository } from '@/test/repositories/in-memory-order-repository'
+import { MakeOrder } from '@/test/factories/make-order'
 
 let inMemoryUsersRepository: InMemoryUsersRepository
 let inMemoryRecipientRepository: InMemoryRecipientRepository
+let inMemoryOrderRepository: InMemoryOrderRepository
 let sut: DeleteRecipientUseCase
 
 describe('Delete a Recipient', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository()
     inMemoryRecipientRepository = new InMemoryRecipientRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      inMemoryRecipientRepository,
+    )
     sut = new DeleteRecipientUseCase(
       inMemoryUsersRepository,
       inMemoryRecipientRepository,
+      inMemoryOrderRepository,
     )
   })
 
@@ -63,5 +71,23 @@ describe('Delete a Recipient', () => {
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(RecipientNotFoundError)
+  })
+
+  it('should not be able to delete a recipient that has orders', async () => {
+    const admin = makeUser({ role: 'ADMIN' })
+    const recipient = MakeRecipient()
+
+    inMemoryUsersRepository.items.push(admin)
+    inMemoryRecipientRepository.items.push(recipient)
+    inMemoryOrderRepository.items.push(MakeOrder({ recipientId: recipient.id }))
+
+    const result = await sut.execute({
+      adminId: admin.id.toString(),
+      recipientId: recipient.id.toString(),
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(RecipientHasOrdersError)
+    expect(inMemoryRecipientRepository.items).toHaveLength(1)
   })
 })
