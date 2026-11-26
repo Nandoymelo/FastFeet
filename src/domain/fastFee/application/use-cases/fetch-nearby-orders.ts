@@ -51,7 +51,6 @@ export class FetchNearbyOrdersUseCase {
       { page },
     )
 
-    // o entregador precisa do endereço de cada pedido listado
     const recipients = await this.recipientsRepository.findManyByIds(
       orders.map((order) => order.recipientId.toString()),
     )

@@ -23,8 +23,6 @@ export class LocalStorageProvider implements StorageProvider {
 
     await mkdir(resolve(uploadDir), { recursive: true })
 
-    // O nome enviado pelo cliente nunca é usado no disco: evita path traversal
-    // e sobrescrita de arquivos.
     const storedName = `${randomUUID()}${EXTENSIONS[contentType] ?? ''}`
 
     await writeFile(resolve(uploadDir, storedName), file, { flag: 'wx' })

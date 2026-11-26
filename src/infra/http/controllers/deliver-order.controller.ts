@@ -22,7 +22,7 @@ import {
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 
-const MAX_PHOTO_SIZE_IN_BYTES = 5 * 1024 * 1024 // 5 MB
+const MAX_PHOTO_SIZE_IN_BYTES = 5 * 1024 * 1024
 
 const PNG_SIGNATURE = Buffer.from([
   0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
@@ -34,8 +34,6 @@ interface UploadedPhoto {
   originalname: string
 }
 
-// O tipo é lido dos primeiros bytes do arquivo, porque o mimetype enviado pelo
-// cliente pode ser forjado.
 function detectImageType(buffer: Buffer) {
   if (buffer.subarray(0, JPEG_SIGNATURE.length).equals(JPEG_SIGNATURE)) {
     return 'image/jpeg'
@@ -75,8 +73,6 @@ export class DeliverOrderController {
       )
     }
 
-    // Sem arquivo, o buffer vai vazio e o use case devolve
-    // DeliveryPhotoRequiredError.
     const result = await this.deliverOrder.execute({
       deliverymanId: user.sub,
       orderId: id,

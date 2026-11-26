@@ -9,7 +9,6 @@ import { PrismaService } from '../prisma.service'
 
 const PAGE_SIZE = 20
 
-// Mesma constante usada em getDistanceBetweenCoordinates (graus -> milhas -> km)
 const KM_PER_DEGREE = 60 * 1.1515 * 1.609344
 
 @Injectable()
@@ -48,8 +47,6 @@ export class PrismaOrdersRepository implements OrdersRepository {
   async savePickUp(order: Order): Promise<boolean> {
     const data = PrismaOrderMapper.toPrisma(order)
 
-    // A condição vai no próprio UPDATE, então o banco garante que só uma
-    // retirada simultânea altera a linha.
     const { count } = await this.prisma.order.updateMany({
       where: {
         id: order.id.toString(),
@@ -110,9 +107,6 @@ export class PrismaOrdersRepository implements OrdersRepository {
     { latitude, longitude, maxDistanceInKm }: FindManyAvailableNearbyParams,
     { page }: PaginationParams,
   ): Promise<Order[]> {
-    // O pedido não tem coordenadas: a distância é calculada a partir do
-    // destinatário. Mesma fórmula (lei dos cossenos) do getDistanceBetweenCoordinates,
-    // e mesma regra de Order.canBePickedUp().
     const rows = await this.prisma.$queryRaw<{ id: string }[]>`
       SELECT id FROM (
         SELECT
@@ -145,7 +139,6 @@ export class PrismaOrdersRepository implements OrdersRepository {
       where: { id: { in: ids } },
     })
 
-    // O findMany com "in" não preserva a ordem por distância
     return ids.flatMap((id) => {
       const order = orders.find((item) => item.id === id)
 

@@ -115,8 +115,6 @@ DELETE {{baseUrl}}/recipient/{{recipientId}}
 Authorization: Bearer {{authenticate.response.body.access_token}}
 
 ###
-# Pedidos (administrador)
-###
 
 # @name create_order
 POST {{baseUrl}}/order
@@ -142,7 +140,6 @@ Authorization: Bearer {{authenticate.response.body.access_token}}
 ###
 
 # @name edit_order
-# Troca o destinatário (só antes da retirada)
 PUT {{baseUrl}}/order/{{orderId}}
 Content-Type: application/json
 Authorization: Bearer {{authenticate.response.body.access_token}}
@@ -160,16 +157,12 @@ Authorization: Bearer {{authenticate.response.body.access_token}}
 ###
 
 # @name delete_order
-# Só antes da retirada
 DELETE {{baseUrl}}/order/{{orderId}}
 Authorization: Bearer {{authenticate.response.body.access_token}}
 
 ###
-# Pedidos (entregador)
-###
 
 # @name authenticate_deliveryman
-# Entregador criado em create_account (se trocou a senha, use a nova)
 POST {{baseUrl}}/sessions
 Content-Type: application/json
 
@@ -199,7 +192,6 @@ Authorization: Bearer {{authenticate_deliveryman.response.body.access_token}}
 ###
 
 # @name deliver_order
-# Coloque uma imagem foto.jpg na pasta deste arquivo
 PATCH {{baseUrl}}/order/{{orderId}}/deliver
 Content-Type: multipart/form-data; boundary=FastFeetBoundary
 Authorization: Bearer {{authenticate_deliveryman.response.body.access_token}}

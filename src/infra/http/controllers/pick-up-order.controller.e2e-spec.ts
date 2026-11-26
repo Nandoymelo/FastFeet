@@ -142,7 +142,6 @@ describe('Pick up order (E2E)', () => {
     })
     const orderId = order.id.toString()
 
-    // simula duas requisições que leram o pedido antes de qualquer gravação
     const copyA = await ordersRepository.findById(orderId)
     const copyB = await ordersRepository.findById(orderId)
     copyA!.pickUp(first.user.id)

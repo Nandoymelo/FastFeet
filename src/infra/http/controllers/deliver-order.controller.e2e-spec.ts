@@ -11,7 +11,6 @@ import { Test } from '@nestjs/testing'
 import { randomUUID } from 'node:crypto'
 import request from 'supertest'
 
-// Apenas as assinaturas dos formatos: é o que o controller verifica
 const JPEG = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0x00, 0x10])
 const PNG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
 
@@ -28,7 +27,6 @@ describe('Deliver order (E2E)', () => {
       imports: [AppModule, DatabaseModule],
       providers: [UserFactory, OrderFactory],
     })
-      // não grava arquivos em disco durante os testes
       .overrideProvider(StorageProvider)
       .useValue(storage)
       .compile()
@@ -121,7 +119,6 @@ describe('Deliver order (E2E)', () => {
   test('[PATCH] /order/:id/deliver - retorna 415 se o arquivo não for uma imagem', async () => {
     const { orderId, accessToken } = await makePickedUpOrder()
 
-    // nome e mimetype de imagem, mas o conteúdo não é
     const response = await deliver(orderId, accessToken).attach(
       'photo',
       Buffer.from('isto não é uma imagem'),

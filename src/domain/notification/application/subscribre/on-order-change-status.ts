@@ -29,8 +29,6 @@ export class OnOrderChangeStatus implements EventHandler {
   }
 
   private async sendOrderStatusNotification({ order }: OrderChangeStatus) {
-    // O DomainEvents não espera este handler: sem o catch, uma falha ao enviar
-    // viraria uma rejeição não tratada e derrubaria a aplicação.
     try {
       await this.sendNotification.execute({
         recipientId: order.recipientId.toString(),

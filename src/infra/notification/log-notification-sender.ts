@@ -2,8 +2,6 @@ import { NotificationSender } from '@/domain/notification/application/gateways/n
 import type { Notification } from '@/domain/notification/enterprise/entities/notification'
 import { Injectable, Logger } from '@nestjs/common'
 
-// Simula o serviço externo escrevendo no log. Para usar um provedor real, basta
-// outra implementação de NotificationSender no EventsModule.
 @Injectable()
 export class LogNotificationSender implements NotificationSender {
   private readonly logger = new Logger(LogNotificationSender.name)

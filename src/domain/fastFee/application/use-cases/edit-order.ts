@@ -57,8 +57,6 @@ export class EditOrderUseCase {
       return left(new OrderNotFoundError(orderId))
     }
 
-    // O try/catch cobre só a regra da entidade: assim, uma falha ao salvar
-    // não é confundida com "pedido não pode ser editado".
     try {
       order.changeRecipient(new UniqueEntityID(recipientId))
     } catch {

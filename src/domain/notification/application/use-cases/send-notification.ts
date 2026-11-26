@@ -38,7 +38,6 @@ export class SendNotificationUseCase {
 
     await this.notificationsRepository.create(notification)
 
-    // grava antes de enviar: se o envio falhar, o registro não se perde
     await this.notificationSender.send(notification)
 
     return right({

@@ -17,7 +17,6 @@ describe('Fetch nearby orders (E2E)', () => {
   let orderFactory: OrderFactory
   let jwt: JwtService
 
-  // Posição do entregador (Av. Paulista, São Paulo)
   const me = { latitude: -23.5613, longitude: -46.6565 }
 
   beforeAll(async () => {
@@ -61,17 +60,16 @@ describe('Fetch nearby orders (E2E)', () => {
     const near = await recipientFactory.makePrismaRecipient({
       latitude: -23.5629,
       longitude: -46.6544,
-    }) // ~0,3 km
+    })
     const mid = await recipientFactory.makePrismaRecipient({
       latitude: -23.5505,
       longitude: -46.6333,
-    }) // ~2,7 km
+    })
     const far = await recipientFactory.makePrismaRecipient({
       latitude: -22.9068,
       longitude: -43.1729,
-    }) // ~360 km (Rio de Janeiro)
+    })
 
-    // Criado de propósito fora de ordem de distância
     const midOrder = await orderFactory.makePrismaOrder({
       recipientId: mid.id,
       availableAt: new Date(),
@@ -81,18 +79,17 @@ describe('Fetch nearby orders (E2E)', () => {
       availableAt: new Date(),
     })
 
-    // Não devem aparecer:
     await orderFactory.makePrismaOrder({
       recipientId: far.id,
       availableAt: new Date(),
-    }) // longe demais
-    await orderFactory.makePrismaOrder({ recipientId: near.id }) // ainda não disponível
+    })
+    await orderFactory.makePrismaOrder({ recipientId: near.id })
     await orderFactory.makePrismaOrder({
       recipientId: near.id,
       deliverymanId: deliveryman.id,
       availableAt: new Date(),
       pickedUpAt: new Date(),
-    }) // já retirado
+    })
 
     const response = await request(app.getHttpServer())
       .get(`/order/nearby?latitude=${me.latitude}&longitude=${me.longitude}`)

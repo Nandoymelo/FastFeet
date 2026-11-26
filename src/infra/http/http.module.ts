@@ -65,8 +65,6 @@ import { AuthenticateUseCase } from '@/domain/fastFee/application/use-cases/auth
     EditRecipientController,
     DeleteRecipientController,
     CreateOrderController,
-    // Rotas fixas (/order/mine, /order/nearby) precisam vir ANTES de
-    // GetOrderController (/order/:id), senão "mine" e "nearby" seriam lidos como id.
     FetchDeliverymanOrderController,
     FetchNearbyOrdersController,
     GetOrderController,

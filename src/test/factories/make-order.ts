@@ -22,9 +22,6 @@ export function MakeOrder(override: Partial<OrderProps> = {}) {
 export class OrderFactory {
   constructor(private prisma: PrismaService) {}
 
-  // O pedido tem FK para o destinatário (e para o entregador, quando informado):
-  // se nenhum recipientId vier, um destinatário é criado junto. O deliverymanId,
-  // quando passado, precisa ser de um usuário que já exista no banco.
   async makePrismaOrder(data: Partial<OrderProps> = {}): Promise<Order> {
     let recipientId = data.recipientId
 

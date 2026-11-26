@@ -6,10 +6,6 @@ export abstract class OrdersRepository {
   abstract create(order: Order): Promise<void>
   abstract findById(id: string): Promise<Order | null>
   abstract save(order: Order): Promise<void>
-  /**
-   * Grava a retirada somente se o pedido ainda estiver disponível no momento da
-   * escrita. Devolve false se outra retirada chegou antes.
-   */
   abstract savePickUp(order: Order): Promise<boolean>
   abstract hasOrdersByRecipientId(recipientId: string): Promise<boolean>
   abstract delete(order: Order): Promise<void>

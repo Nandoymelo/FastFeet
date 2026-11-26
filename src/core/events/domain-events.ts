@@ -9,8 +9,6 @@ export class DomainEvents {
   private static markedAggregates: AggregateRoot<any>[] = []
 
   public static markAggregateForDispatch(aggregate: AggregateRoot<any>) {
-    // Compara a instância, e não o id: duas requisições podem carregar o mesmo
-    // agregado, e os eventos de uma não podem esconder os da outra.
     if (!this.markedAggregates.includes(aggregate)) {
       this.markedAggregates.push(aggregate)
     }
@@ -49,7 +47,6 @@ export class DomainEvents {
     this.discardEvents(aggregate)
   }
 
-  // Descarta sem disparar: usado quando a mudança não chegou a ser gravada
   public static discardEvents(aggregate: AggregateRoot<any>) {
     aggregate.clearEvents()
     this.removeAggregateFromMarkedDispatchList(aggregate)

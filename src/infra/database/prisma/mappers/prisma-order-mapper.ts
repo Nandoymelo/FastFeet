@@ -4,8 +4,6 @@ import type { Order as PrismaOrder, Prisma } from '@prisma/client'
 
 export class PrismaOrderMapper {
   static toDomain(raw: PrismaOrder): Order {
-    // Com exactOptionalPropertyTypes, um campo opcional não pode receber
-    // undefined explícito: ele só entra no objeto quando existe no banco.
     return Order.create(
       {
         recipientId: new UniqueEntityID(raw.recipientId),
@@ -25,8 +23,6 @@ export class PrismaOrderMapper {
     )
   }
 
-  // Os campos opcionais vão como null (e não undefined) para que o update
-  // do Prisma realmente limpe o valor, em vez de ignorar o campo.
   static toPrisma(order: Order): Prisma.OrderUncheckedCreateInput {
     return {
       id: order.id.toString(),

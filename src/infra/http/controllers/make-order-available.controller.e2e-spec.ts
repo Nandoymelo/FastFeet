@@ -64,13 +64,11 @@ describe('Make order available (E2E)', () => {
       where: { id: orderId },
     })
 
-    // mudou: o pedido nasceu sem availableAt e agora tem uma data recente
     expect(orderOnDatabase?.availableAt).toBeInstanceOf(Date)
     expect(orderOnDatabase!.availableAt!.getTime()).toBeGreaterThanOrEqual(
       before.getTime(),
     )
 
-    // o resto não mudou
     expect(orderOnDatabase).toEqual(
       expect.objectContaining({
         deliverymanId: null,
@@ -80,7 +78,6 @@ describe('Make order available (E2E)', () => {
       }),
     )
 
-    // e a própria API enxerga o novo status
     const getResponse = await request(app.getHttpServer())
       .get(`/order/${orderId}`)
       .set('Authorization', `Bearer ${accessToken}`)
@@ -144,7 +141,6 @@ describe('Make order available (E2E)', () => {
       where: { id: orderId },
     })
 
-    // a data original não foi sobrescrita
     expect(orderOnDatabase?.availableAt).toEqual(originalAvailableAt)
   })
 

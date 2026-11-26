@@ -44,7 +44,6 @@ describe('Order status notifications (E2E)', () => {
     await app.close()
   })
 
-  // O envio é assíncrono: a resposta HTTP não espera a notificação ser gravada
   async function expectNotifications(recipientId: string, contents: string[]) {
     await vi.waitFor(async () => {
       const notifications = await prisma.notification.findMany({

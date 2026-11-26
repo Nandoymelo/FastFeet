@@ -12,7 +12,6 @@ let sendNotification: SendNotificationUseCase
 describe('On Order Change Status', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // evita handlers acumulados dos testes anteriores
     DomainEvents.clearHandlers()
 
     sendNotification = {
